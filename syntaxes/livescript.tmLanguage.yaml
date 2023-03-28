@@ -1,0 +1,382 @@
+scopeName: source.livescript
+
+patterns:
+- include: '#expr'
+
+repository:
+  expr:
+    patterns:
+    - include: '#string-multiline-single'
+    - include: '#string-multiline-double'
+    - include: '#string-single'
+    - include: '#string-double'
+    - include: '#string-backslash'
+    - include: '#list-words'
+    - include: '#comment-line'
+    - include: '#comment-block'
+    - include: '#heregex'
+    - include: '#regexp'
+    - include: '#function'
+    - include: '#number'
+    - include: '#property'
+    - include: '#operator'
+    - include: '#function-named'
+    - include: '#class'
+    - include: '#storage'
+    - include: '#constant'
+    - include: '#keyword'
+    - include: '#references'
+    - include: '#punctuation'
+    - include: '#variable'
+
+  string-multiline-single:
+    patterns:
+    - begin: \'''
+      end: \'''
+      captures:
+        0:
+          name: punctuation
+      contentName: string.quoted.single
+      patterns:
+      - match: \\.
+        name: constant.character.escape
+
+  string-multiline-double:
+    patterns:
+    - begin: \"""
+      end: \"""
+      captures:
+        0:
+          name: punctuation
+      contentName: string.quoted.double
+      patterns:
+      - match: \\.
+        name: constant.character.escape
+      - begin: \#{
+        end: \}|$
+        captures:
+          0:
+            name: variable.parameter.livescript
+        patterns:
+        - include: '#expr'
+      - match: \#(?:@?[a-zA-Z_$][\w$]*|@)
+        name: variable.parameter.livescript
+
+  string-single:
+    patterns:
+    - begin: \'
+      end: \'|$
+      captures:
+        0:
+          name: punctuation
+      contentName: string.quoted.single
+      patterns:
+      - match: \\.
+        name: constant.character.escape
+
+  string-double:
+    patterns:
+    - begin: \"
+      end: \"|$
+      captures:
+        0:
+          name: punctuation
+      contentName: string.quoted.double
+      patterns:
+      - match: \\.
+        name: constant.character.escape
+      - begin: \#{
+        end: \}|$
+        captures:
+          0:
+            name: variable.parameter.livescript
+        patterns:
+        - include: '#expr'
+      - match: \#(?:@?[a-zA-Z_$][\w$]*|@)
+        name: variable.parameter.livescript
+
+  string-backslash:
+    patterns:
+    - match: \\(\S[^,;)\]}\s]*)
+      name: string.other
+      captures:
+        1:
+          patterns:
+          - match: \\(?:.|$)
+            name: constant.character.escape
+
+  list-words:
+    patterns:
+    - begin: <\[
+      end: \]>
+      captures:
+        0:
+          name: keyword.other
+      name: string.quoted.other
+
+  comment-line:
+    patterns:
+    - match: \#.*
+      name: comment.line.number-sign.livescript
+
+  comment-block:
+    patterns:
+    - begin: /\*
+      end: \*/
+      name: comment.block.livescript
+
+  heregex:
+    patterns:
+    - begin: //
+      end: //[dgimsuy]{,7}
+      captures:
+        0:
+          name: keyword.other
+      contentName: string.regexp
+      patterns:
+      - include: '#heregex-content'
+
+  heregex-content:
+    patterns:
+    - match: \\.
+      name: constant.character.escape
+    - match: \.
+      name: constant.other
+    - match: '[+*?^$]'
+      name: keyword.other
+    - match: '\{(\d+,\d+|\d+,|,\d+|\d+)\}'
+      name: keyword.other
+    - match: ' #.*'
+      name: comment.line.number-sign.livescript
+    - begin: (\[)(\^)?-?
+      end: -?(\])
+      beginCaptures:
+        1:
+          name: keyword.other
+        2:
+          name: keyword.other
+      endCaptures:
+        1:
+          name: keyword.other
+      patterns:
+      - match: \\.
+        name: constant.character.escape
+      - match: \-
+        name: keyword.operator
+    - begin: \((\?(<?[=!]|:))?
+      end: \)
+      captures:
+        0:
+          name: keyword.other
+      patterns:
+      - include: '#heregex-content'
+    - begin: \#{
+      end: \}
+      captures:
+        0:
+          name: variable.parameter.livescript
+      patterns:
+      - include: '#expr'
+    - match: \#(?:@?[a-zA-Z_$][\w$]*|@)
+      name: variable.parameter.livescript
+
+  regexp:
+    patterns:
+    - begin: /(?![= ])
+      end: /[dgimsuy]{,7}|$
+      captures:
+        0:
+          name: keyword.other
+      contentName: string.regexp
+      patterns:
+      - include: '#regexp-content'
+
+  regexp-content:
+    patterns:
+    - match: \\.
+      name: constant.character.escape
+    - match: \.
+      name: constant.other
+    - match: '[+*?^$]'
+      name: keyword.other
+    - match: '\{(\d+,\d+|\d+,|,\d+|\d+)\}'
+      name: keyword.other
+    - begin: (\[)(\^)?-?
+      end: -?(\])|$
+      beginCaptures:
+        1:
+          name: keyword.other
+        2:
+          name: keyword.other
+      endCaptures:
+        1:
+          name: keyword.other
+      patterns:
+      - match: \\.
+        name: constant.character.escape
+      - match: \-
+        name: keyword.operator
+    - begin: \((\?(<?[=!]|:))?
+      end: \)|$
+      captures:
+        0:
+          name: keyword.other
+      patterns:
+      - include: '#regexp-content'
+
+  function:
+    patterns:
+    - match: (?:(?:([.~]?)([\w$]+)|([a-zA-Z_$][\w$]*))\s*(:=|[:=]))?\s*(?:(\()(.+)(\)))?\s*(!?[-~]>>?\*?)
+      captures:
+        1:
+          name: punctuation.accessor
+        2:
+          name: entity.name.function
+        3:
+          name: entity.name.function
+        4:
+          name: keyword.operator
+        5:
+          name: punctuation.definition.parameters.begin
+        6:
+          patterns:
+          - include: '#expr'
+        7:
+          name: punctuation.definition.parameters.end
+        8:
+          name: keyword.other
+
+  number:
+    patterns:
+    - match: \d\d?~[\da-zA-Z]+
+      name: constant.numeric
+    - match: \d+n
+      name: constant.numeric
+    - match: \d+(\.\d+)?([eE]-?\d+)?[\w$]*
+      name: constant.numeric
+
+  property:
+    patterns:
+    - match: (\@)([\w$]+)
+      captures:
+        1:
+          name: storage.type.livescript
+        2:
+          name: variable.other
+    - match: (\.= *|::= *|\.\.|::)([\w$]+)
+      captures:
+        1:
+          name: keyword.operator
+        2:
+          name: variable.other
+    - match: (\.)([\w$]+)
+      captures:
+        1:
+          name: punctuation.accessor
+        2:
+          name: variable.other
+    - match: (?<=["')\]}/]|[\w$])(~)([\w$]+)
+      captures:
+        1:
+          name: punctuation.accessor
+        2:
+          name: variable.other
+    - match: (?<=["')\]}/])(~?)([\w$]+)
+      name: variable.other
+
+  operator:
+    patterns:
+    - match: \.(>>>?|<<|[&|^])\.| \. |!~=|>>>?|\.\.\.?|[=!~:.]=|\+\+|--|\*\*|%%|::|=>|<<|\|>|<\||[<>]\?|&&|\|\|?|\^\^?|[<>]=?|[+\-*/%!?=~]
+      name: keyword.operator
+    - match: (is|isnt|and|x?or|not|delete|typeof|instanceof)(?![\w$])
+      name: keyword.operator
+
+  function-named:
+    patterns:
+    - match: (!)?(function) +([a-zA-Z_$][\w$]*)
+      captures:
+        1:
+          name: keyword.other
+        2:
+          name: keyword.control
+        3:
+          name: entity.name.function
+
+  class:
+    patterns:
+    - match: '(class) +(extends) +([a-zA-Z_$][\w$]*)(?: +(implements) +(.+))?'
+      captures:
+        1:
+          name: keyword.control
+        2:
+          name: keyword.control
+        3:
+          name: storage.type.livescript
+        4:
+          name: keyword.control
+        5:
+          patterns:
+          - include: '#class-implements'
+    - match: '(class) +(implements) +(.+)'
+      captures:
+        1:
+          name: keyword.control
+        2:
+          name: keyword.control
+        3:
+          patterns:
+          - include: '#class-implements'
+    - match: '(class) +([a-zA-Z_$][\w$]*)(?: +(extends) +([a-zA-Z_$][\w$]*))?(?: +(implements) +(.+))?'
+      captures:
+        1:
+          name: keyword.control
+        2:
+          name: entity.name.function
+        3:
+          name: keyword.control
+        4:
+          name: storage.type.livescript
+        5:
+          name: keyword.control
+        6:
+          patterns:
+          - include: '#class-implements'
+
+  class-implements:
+    patterns:
+    - match: \,
+      name: punctuation.separator.comma
+    - match: '[a-zA-Z_$][\w$]*'
+      name: storage.type.livescript
+
+  storage:
+    patterns:
+    - match: (this|that|it|_)(?![\w$])
+      name: storage.type.livescript
+
+  constant:
+    patterns:
+    - match: (yes|no|true|false|on|off|void|null|undefined|NaN|Infinity)(?![\w$])
+      name: constant.language
+
+  keyword:
+    patterns:
+    - match: (if|unless|then|else|switch|match|case|default|otherwise|fallthrough|for|own|ever|from|to|til|by|when|while|until|loop|in|of|let|do|var|const|break|continue|return|yield|await|try|catch|finally|throw|new|with|debugger|function|class|extends|implements)(?![\w$])
+      name: keyword.control
+
+  references:
+    patterns:
+    - match: (AbortController|AbortSignal|AbsoluteOrientationSensor|AbstractRange|Accelerometer|AccessibleNode|AccessibleNodeList|AggregateError|AmbientLightSensor|AnalyserNode|Animation|AnimationEffect|AnimationEvent|AnimationPlaybackEvent|AnimationTimeline|AppHistory|AppHistoryCurrentChangeEvent|AppHistoryDestination|AppHistoryEntry|AppHistoryNavigateEvent|AppHistoryTransition|Array|ArrayBuffer|Atomics|Attr|Audio|AudioBuffer|AudioBufferSourceNode|AudioContext|AudioData|AudioDecoder|AudioDestinationNode|AudioEncoder|AudioListener|AudioNode|AudioParam|AudioParamMap|AudioProcessingEvent|AudioScheduledSourceNode|AudioTrack|AudioTrackList|AudioWorklet|AudioWorkletNode|AuthenticatorAssertionResponse|AuthenticatorAttestationResponse|AuthenticatorResponse|BackgroundFetchManager|BackgroundFetchRecord|BackgroundFetchRegistration|BarProp|BaseAudioContext|BatteryManager|BeforeCreatePolicyEvent|BeforeInstallPromptEvent|BeforeUnloadEvent|BigInt|BigInt64Array|BigUint64Array|BiquadFilterNode|Blob|BlobEvent|Bluetooth|BluetoothAdvertisingEvent|BluetoothCharacteristicProperties|BluetoothDevice|BluetoothLEScan|BluetoothManufacturerDataMap|BluetoothRemoteGATTCharacteristic|BluetoothRemoteGATTDescriptor|BluetoothRemoteGATTServer|BluetoothRemoteGATTService|BluetoothServiceDataMap|BluetoothUUID|Boolean|BroadcastChannel|BrowserCaptureMediaStreamTrack|ByteLengthQueuingStrategy|CDATASection|CSSAnimation|CSSColorValue|CSSConditionRule|CSSCounterStyleRule|CSSFontFaceRule|CSSGroupingRule|CSSHSL|CSSImageValue|CSSImportRule|CSSKeyframeRule|CSSKeyframesRule|CSSKeywordValue|CSSMathInvert|CSSMathMax|CSSMathMin|CSSMathNegate|CSSMathProduct|CSSMathSum|CSSMathValue|CSSMatrixComponent|CSSMediaRule|CSSNamespaceRule|CSSNumericArray|CSSNumericValue|CSSPageRule|CSSPerspective|CSSPositionValue|CSSPropertyRule|CSSRGB|CSSRotate|CSSRule|CSSRuleList|CSSScale|CSSScrollTimelineRule|CSSSkew|CSSSkewX|CSSSkewY|CSSStyleDeclaration|CSSStyleRule|CSSStyleSheet|CSSStyleValue|CSSSupportsRule|CSSTransformComponent|CSSTransformValue|CSSTransition|CSSTranslate|CSSUnitValue|CSSUnparsedValue|CSSVariableReferenceValue|Cache|CacheStorage|CanvasCaptureMediaStreamTrack|CanvasFilter|CanvasFormattedText|CanvasFormattedTextRun|CanvasGradient|CanvasPattern|CanvasRenderingContext2D|CaptureHandleChangeEvent|ChannelMergerNode|ChannelSplitterNode|CharacterBoundsUpdateEvent|CharacterData|Clipboard|ClipboardEvent|ClipboardItem|CloseEvent|CloseWatcher|CodeMirror|Comment|CompositionEvent|CompressionStream|ComputePressureObserver|ComputedAccessibleNode|ConstantSourceNode|ContentIndex|ConvolverNode|CookieChangeEvent|CookieStore|CookieStoreManager|CountQueuingStrategy|Credential|CredentialsContainer|Crypto|CryptoKey|CustomElementRegistry|CustomEvent|CustomStateSet|DOMError|DOMException|DOMImplementation|DOMMatrix|DOMMatrixReadOnly|DOMParser|DOMPoint|DOMPointReadOnly|DOMQuad|DOMRect|DOMRectList|DOMRectReadOnly|DOMStringList|DOMStringMap|DOMTokenList|DataTransfer|DataTransferItem|DataTransferItemList|DataView|Date|DecompressionStream|DelayNode|DelegatedInkTrailPresenter|DeviceMotionEvent|DeviceMotionEventAcceleration|DeviceMotionEventRotationRate|DeviceOrientationEvent|DevicePosture|Directive|Document|DocumentFragment|DocumentTimeline|DocumentType|DragEvent|DynamicsCompressorNode|EditContext|Element|ElementInternals|EncodedAudioChunk|EncodedVideoChunk|Error|ErrorEvent|EvalError|Event|EventCounts|EventSource|EventTarget|External|EyeDropper|FaceDetector|FeaturePolicy|FederatedCredential|File|FileList|FileReader|FileSystemDirectoryHandle|FileSystemFileHandle|FileSystemHandle|FileSystemWritableFileStream|FinalizationRegistry|Float32Array|Float64Array|FocusEvent|FocusableMediaStreamTrack|FontFace|FontFaceSetLoadEvent|FormData|FormDataEvent|FragmentDirective|Function|GainNode|Gamepad|GamepadAxisEvent|GamepadButton|GamepadButtonEvent|GamepadEvent|GamepadHapticActuator|Geolocation|GeolocationCoordinates|GeolocationPosition|GeolocationPositionError|GravitySensor|Gyroscope|HIDConnectionEvent|HIDDevice|HIDInputReportEvent|HTMLAllCollection|HTMLAnchorElement|HTMLAreaElement|HTMLAudioElement|HTMLBRElement|HTMLBaseElement|HTMLBodyElement|HTMLButtonElement|HTMLCanvasElement|HTMLCollection|HTMLDListElement|HTMLDataElement|HTMLDataListElement|HTMLDetailsElement|HTMLDialogElement|HTMLDirectoryElement|HTMLDivElement|HTMLDocument|HTMLElement|HTMLEmbedElement|HTMLFieldSetElement|HTMLFontElement|HTMLFormControlsCollection|HTMLFormElement|HTMLFrameElement|HTMLFrameSetElement|HTMLHRElement|HTMLHeadElement|HTMLHeadingElement|HTMLHtmlElement|HTMLIFrameElement|HTMLImageElement|HTMLInputElement|HTMLLIElement|HTMLLabelElement|HTMLLegendElement|HTMLLinkElement|HTMLMapElement|HTMLMarqueeElement|HTMLMediaElement|HTMLMenuElement|HTMLMetaElement|HTMLMeterElement|HTMLModElement|HTMLOListElement|HTMLObjectElement|HTMLOptGroupElement|HTMLOptionElement|HTMLOptionsCollection|HTMLOutputElement|HTMLParagraphElement|HTMLParamElement|HTMLPictureElement|HTMLPopupElement|HTMLPreElement|HTMLProgressElement|HTMLQuoteElement|HTMLScriptElement|HTMLSelectElement|HTMLSelectMenuElement|HTMLSlotElement|HTMLSourceElement|HTMLSpanElement|HTMLStyleElement|HTMLTableCaptionElement|HTMLTableCellElement|HTMLTableColElement|HTMLTableElement|HTMLTableRowElement|HTMLTableSectionElement|HTMLTemplateElement|HTMLTextAreaElement|HTMLTimeElement|HTMLTitleElement|HTMLTrackElement|HTMLUListElement|HTMLUnknownElement|HTMLVideoElement|HandwritingStroke|HapticsDevice|HapticsPredefinedWaveform|HashChangeEvent|Headers|Highlight|HighlightRegistry|History|IDBCursor|IDBCursorWithValue|IDBDatabase|IDBFactory|IDBIndex|IDBKeyRange|IDBObjectStore|IDBOpenDBRequest|IDBRequest|IDBTransaction|IDBVersionChangeEvent|ID_INTERPOLATE|IIRFilterNode|IdleDeadline|IdleDetector|Image|ImageBitmap|ImageBitmapRenderingContext|ImageCapture|ImageData|ImageDecoder|ImageTrack|ImageTrackList|Infinity|InputDeviceCapabilities|InputDeviceInfo|InputEvent|Int16Array|Int32Array|Int8Array|IntersectionObserver|IntersectionObserverEntry|Intl|JSON|Keyboard|KeyboardEvent|KeyboardLayoutMap|KeyframeEffect|LargestContentfulPaint|LaunchParams|LaunchQueue|LayoutShift|LayoutShiftAttribution|LinearAccelerationSensor|Location|Lock|LockManager|MIDIAccess|MIDIConnectionEvent|MIDIInput|MIDIInputMap|MIDIMessageEvent|MIDIOutput|MIDIOutputMap|MIDIPort|Magnetometer|Math|MathMLElement|MediaCapabilities|MediaDeviceInfo|MediaDevices|MediaElementAudioSourceNode|MediaEncryptedEvent|MediaError|MediaKeyMessageEvent|MediaKeySession|MediaKeyStatusMap|MediaKeySystemAccess|MediaKeys|MediaList|MediaMetadata|MediaQueryList|MediaQueryListEvent|MediaRecorder|MediaSession|MediaSource|MediaStream|MediaStreamAudioDestinationNode|MediaStreamAudioSourceNode|MediaStreamEvent|MediaStreamTrack|MediaStreamTrackEvent|MediaStreamTrackGenerator|MediaStreamTrackProcessor|MerchantValidationEvent|MessageChannel|MessageEvent|MessagePort|MimeType|MimeTypeArray|MouseEvent|MutationEvent|MutationObserver|MutationRecord|NamedNodeMap|NativeIOFile|NativeIOFileManager|NavigationPreloadManager|Navigator|NavigatorManagedData|NavigatorUAData|NetworkInformation|Node|NodeFilter|NodeIterator|NodeList|Notification|Number|OTPCredential|Object|OfflineAudioCompletionEvent|OfflineAudioContext|OffscreenCanvas|OffscreenCanvasRenderingContext2D|Option|OrientationSensor|OscillatorNode|OverconstrainedError|OverscrollEvent|PageTransitionEvent|PannerNode|PasswordCredential|Path2D|PaymentAddress|PaymentInstruments|PaymentManager|PaymentMethodChangeEvent|PaymentRequest|PaymentRequestUpdateEvent|PaymentResponse|PenButtonEvent|PenDockChangeEvent|Performance|PerformanceElementTiming|PerformanceEntry|PerformanceEventTiming|PerformanceLongTaskTiming|PerformanceMark|PerformanceMeasure|PerformanceNavigation|PerformanceNavigationTiming|PerformanceObserver|PerformanceObserverEntryList|PerformancePaintTiming|PerformanceResourceTiming|PerformanceServerTiming|PerformanceTiming|PeriodicSyncManager|PeriodicWave|PermissionStatus|Permissions|PictureInPictureEvent|PictureInPictureWindow|Plugin|PluginArray|PointerEvent|PopStateEvent|Presentation|PresentationAvailability|PresentationConnection|PresentationConnectionAvailableEvent|PresentationConnectionCloseEvent|PresentationConnectionList|PresentationReceiver|PresentationRequest|ProcessingInstruction|Profiler|ProgressEvent|Promise|PromiseRejectionEvent|Proxy|PublicKeyCredential|PushManager|PushSubscription|PushSubscriptionOptions|RTCCertificate|RTCDTMFSender|RTCDTMFToneChangeEvent|RTCDataChannel|RTCDataChannelEvent|RTCDtlsTransport|RTCEncodedAudioFrame|RTCEncodedVideoFrame|RTCError|RTCErrorEvent|RTCIceCandidate|RTCIceTransport|RTCPeerConnection|RTCPeerConnectionIceErrorEvent|RTCPeerConnectionIceEvent|RTCRtpReceiver|RTCRtpSender|RTCRtpTransceiver|RTCSctpTransport|RTCSessionDescription|RTCStatsReport|RTCTrackEvent|RadioNodeList|Range|RangeError|ReadableByteStreamController|ReadableStream|ReadableStreamBYOBReader|ReadableStreamBYOBRequest|ReadableStreamDefaultController|ReadableStreamDefaultReader|ReferenceError|Reflect|RegExp|RelativeOrientationSensor|RemotePlayback|ReportingObserver|Request|ResizeObserver|ResizeObserverEntry|ResizeObserverSize|Response|SVGAElement|SVGAngle|SVGAnimateElement|SVGAnimateMotionElement|SVGAnimateTransformElement|SVGAnimatedAngle|SVGAnimatedBoolean|SVGAnimatedEnumeration|SVGAnimatedInteger|SVGAnimatedLength|SVGAnimatedLengthList|SVGAnimatedNumber|SVGAnimatedNumberList|SVGAnimatedPreserveAspectRatio|SVGAnimatedRect|SVGAnimatedString|SVGAnimatedTransformList|SVGAnimationElement|SVGCircleElement|SVGClipPathElement|SVGComponentTransferFunctionElement|SVGDefsElement|SVGDescElement|SVGElement|SVGEllipseElement|SVGFEBlendElement|SVGFEColorMatrixElement|SVGFEComponentTransferElement|SVGFECompositeElement|SVGFEConvolveMatrixElement|SVGFEDiffuseLightingElement|SVGFEDisplacementMapElement|SVGFEDistantLightElement|SVGFEDropShadowElement|SVGFEFloodElement|SVGFEFuncAElement|SVGFEFuncBElement|SVGFEFuncGElement|SVGFEFuncRElement|SVGFEGaussianBlurElement|SVGFEImageElement|SVGFEMergeElement|SVGFEMergeNodeElement|SVGFEMorphologyElement|SVGFEOffsetElement|SVGFEPointLightElement|SVGFESpecularLightingElement|SVGFESpotLightElement|SVGFETileElement|SVGFETurbulenceElement|SVGFilterElement|SVGForeignObjectElement|SVGGElement|SVGGeometryElement|SVGGradientElement|SVGGraphicsElement|SVGImageElement|SVGLength|SVGLengthList|SVGLineElement|SVGLinearGradientElement|SVGMPathElement|SVGMarkerElement|SVGMaskElement|SVGMatrix|SVGMetadataElement|SVGNumber|SVGNumberList|SVGPathElement|SVGPatternElement|SVGPoint|SVGPointList|SVGPolygonElement|SVGPolylineElement|SVGPreserveAspectRatio|SVGRadialGradientElement|SVGRect|SVGRectElement|SVGSVGElement|SVGScriptElement|SVGSetElement|SVGStopElement|SVGStringList|SVGStyleElement|SVGSwitchElement|SVGSymbolElement|SVGTSpanElement|SVGTextContentElement|SVGTextElement|SVGTextPathElement|SVGTextPositioningElement|SVGTitleElement|SVGTransform|SVGTransformList|SVGUnitTypes|SVGUseElement|SVGViewElement|Sanitizer|Scheduler|Scheduling|Screen|ScreenDetails|ScreenOrientation|ScriptProcessorNode|ScrollTimeline|SecurityPolicyViolationEvent|Selection|SelectorDirective|Sensor|SensorErrorEvent|Serial|SerialPort|ServiceWorker|ServiceWorkerContainer|ServiceWorkerRegistration|ShadowRoot|SharedWorker|SourceBuffer|SourceBufferList|SpeechSynthesisErrorEvent|SpeechSynthesisEvent|SpeechSynthesisUtterance|StaticRange|StereoPannerNode|Storage|StorageBucket|StorageBucketManager|StorageEvent|StorageManager|String|StylePropertyMap|StylePropertyMapReadOnly|StyleSheet|StyleSheetList|SubmitEvent|SubtleCrypto|Symbol|SyncManager|SyntaxError|TaskAttributionTiming|TaskController|TaskPriorityChangeEvent|TaskSignal|Text|TextDecoder|TextDecoderStream|TextDetector|TextDirective|TextEncoder|TextEncoderStream|TextEvent|TextFormat|TextFormatUpdateEvent|TextMetrics|TextTrack|TextTrackCue|TextTrackCueList|TextTrackList|TextUpdateEvent|TimeRanges|TimestampTrigger|Touch|TouchEvent|TouchList|TrackDefault|TrackDefaultList|TrackEvent|TransformStream|TransitionEvent|TreeWalker|TrustedHTML|TrustedScript|TrustedScriptURL|TrustedTypePolicy|TrustedTypePolicyFactory|TypeError|UIEvent|URIError|URLPattern|URLSearchParams|USBAlternateInterface|USBConfiguration|USBConnectionEvent|USBDevice|USBEndpoint|USBInTransferResult|USBInterface|USBIsochronousInTransferPacket|USBIsochronousInTransferResult|USBIsochronousOutTransferPacket|USBIsochronousOutTransferResult|USBOutTransferResult|Uint16Array|Uint32Array|Uint8Array|Uint8ClampedArray|UserActivation|VTTCue|VTTRegion|ValidityState|VideoColorSpace|VideoDecoder|VideoEncoder|VideoFrame|VideoPlaybackQuality|VideoTrack|VideoTrackList|VirtualKeyboard|VirtualKeyboardGeometryChangeEvent|VisibilityStateEntry|VisualViewport|WakeLock|WakeLockSentinel|WaveShaperNode|WeakMap|WeakRef|WeakSet|WebAssembly|WebGL2RenderingContext|WebGLActiveInfo|WebGLBuffer|WebGLContextEvent|WebGLFramebuffer|WebGLProgram|WebGLQuery|WebGLRenderbuffer|WebGLRenderingContext|WebGLSampler|WebGLShader|WebGLShaderPrecisionFormat|WebGLSync|WebGLTexture|WebGLTransformFeedback|WebGLUniformLocation|WebGLVertexArrayObject|WebKitCSSMatrix|WebKitMutationObserver|WebSocket|WebSocketStream|WebTransport|WebTransportBidirectionalStream|WebTransportDatagramDuplexStream|WebTransportError|WheelEvent|Window|WindowControlsOverlay|WindowControlsOverlayGeometryChangeEvent|Worker|Worklet|WorkletAnimation|WritableStream|WritableStreamDefaultController|WritableStreamDefaultWriter|XMLDocument|XMLHttpRequest|XMLHttpRequestEventTarget|XMLHttpRequestUpload|XMLSerializer|XPathEvaluator|XPathExpression|XPathResult|XRAnchor|XRAnchorSet|XRBoundedReferenceSpace|XRCPUDepthInformation|XRCamera|XRDOMOverlayState|XRDepthInformation|XRFrame|XRHand|XRHitTestResult|XRHitTestSource|XRImageTrackingResult|XRInputSource|XRInputSourceArray|XRInputSourceEvent|XRInputSourcesChangeEvent|XRJointPose|XRJointSpace|XRLayer|XRLightEstimate|XRLightProbe|XRPlane|XRPlaneSet|XRPose|XRRay|XRReferenceSpace|XRReferenceSpaceEvent|XRRenderState|XRRigidTransform|XRSession|XRSessionEvent|XRSpace|XRSystem|XRTransientInputHitTestResult|XRTransientInputHitTestSource|XRView|XRViewerPose|XRViewport|XRWebGLBinding|XRWebGLDepthInformation|XRWebGLLayer|XSLTProcessor|alert|appHistory|atob|blur|btoa|caches|cancelAnimationFrame|cancelIdleCallback|captureEvents|chrome|clearInterval|clearTimeout|clientInformation|confirm|console|cookieStore|createImageBitmap|crossOriginIsolated|crypto|customElements|decodeURI|decodeURIComponent|defaultStatus|defaultstatus|devicePixelRatio|document|encodeURI|encodeURIComponent|escape|eval|event|external|fetch|focus|frameElement|frames|getComputedAccessibleNode|getComputedStyle|getLockScreenData|getScreenDetails|getSelection|globalThis|history|indexedDB|innerHeight|innerWidth|isFinite|isNaN|isSecureContext|launchQueue|localStorage|location|locationbar|matchMedia|menubar|moveBy|moveTo|navigator|offscreenBuffering|open|openDatabase|opener|origin|originAgentCluster|originPolicyIds|outerHeight|outerWidth|pageXOffset|pageYOffset|parseFloat|parseInt|performance|personalbar|postMessage|print|prompt|queueMicrotask|releaseEvents|reportError|requestAnimationFrame|requestIdleCallback|resizeBy|resizeTo|scheduler|screen|screenLeft|screenTop|screenX|screenY|scroll|scrollBy|scrollTo|scrollX|scrollY|scrollbars|sessionStorage|setInterval|setTimeout|showDirectoryPicker|showOpenFilePicker|showSaveFilePicker|speechSynthesis|statusbar|storageFoundation|structuredClone|styleMedia|toolbar|trustedTypes|unescape|visualViewport|webkitCancelAnimationFrame|webkitMediaStream|webkitRTCPeerConnection|webkitRequestAnimationFrame|webkitRequestFileSystem|webkitResolveLocalFileSystemURL|webkitSpeechGrammar|webkitSpeechGrammarList|webkitSpeechRecognition|webkitSpeechRecognitionError|webkitSpeechRecognitionEvent|webkitStorageInfo|webkitURL|window|require|import|process|module|livescript|stylus|m|Phaser)(?![\w$])
+      name: storage.type.livescript
+
+  punctuation:
+    patterns:
+    - match: \.
+      name: punctuation.accessor
+    - match: \,
+      name: punctuation.separator.comma
+
+  variable:
+    patterns:
+    - match: '[a-zA-Z_$][\w$]*'
+      name: variable.other

@@ -1,0 +1,16 @@
+{
+   "version": "2.0.0",
+   "tasks": [
+      {
+         "label": "build",
+         "type": "shell",
+         "command": "node build.js",
+         "presentation": {
+            "reveal": "silent",
+            "revealProblems": "onProblem",
+            "clear": true,
+            "close": true
+         }
+      }
+   ]
+}

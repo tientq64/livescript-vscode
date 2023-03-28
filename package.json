@@ -1,0 +1,31 @@
+{
+   "name": "livescript",
+   "displayName": "LiveScript",
+   "description": "LiveScript Programming Language",
+   "version": "0.0.1",
+   "engines": {
+      "vscode": "^1.75.1"
+   },
+   "categories": [
+      "Programming Languages"
+   ],
+   "contributes": {
+      "languages": [
+         {
+            "id": "livescript",
+            "extensions": [
+               ".ls",
+               ".livescript"
+            ],
+            "configuration": "./language-configuration.json"
+         }
+      ],
+      "grammars": [
+         {
+            "language": "livescript",
+            "scopeName": "source.livescript",
+            "path": "./syntaxes/livescript.tmLanguage.json"
+         }
+      ]
+   }
+}

@@ -11,12 +11,13 @@ repository:
     - include: '#string-single'
     - include: '#string-double'
     - include: '#string-backslash'
+    - include: '#embed-backtick'
     - include: '#list-words'
     - include: '#comment-line'
     - include: '#comment-block'
     - include: '#heregex'
     - include: '#regexp'
-    - include: '#function'
+    - include: '#function-arrow'
     - include: '#number'
     - include: '#property'
     - include: '#operator'
@@ -104,6 +105,16 @@ repository:
           patterns:
           - match: \\(?:.|$)
             name: constant.character.escape
+
+  embed-backtick:
+    patterns:
+    - begin: \``
+      end: \``
+      captures:
+        0:
+          name: punctuation
+      patterns:
+      - include: source.js
 
   list-words:
     patterns:
@@ -224,7 +235,7 @@ repository:
       patterns:
       - include: '#regexp-content'
 
-  function:
+  function-arrow:
     patterns:
     - match: (?:(?:([.~]?)([\w$]+)|([a-zA-Z_$][\w$]*))\s*(:=|[:=]))?\s*(?:(\()(.+)(\)))?\s*(!?[-~]>>?\*?)
       captures:

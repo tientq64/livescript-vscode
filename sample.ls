@@ -223,6 +223,6 @@ for v to 9
    console.log v
 a <<< b
 a <<<< b
-
-``// "" * -1``
+``async function(sd = er + 50, hi = `sd`){}``
+``5// "" 4`` * -1``
 "" * -1

@@ -27,6 +27,12 @@
             "scopeName": "source.livescript",
             "path": "./syntaxes/livescript.tmLanguage.json"
          }
+      ],
+      "snippets": [
+         {
+            "language": "livescript",
+            "path": "./snippets/livescript.code-snippets"
+         }
       ]
    }
 }

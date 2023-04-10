@@ -1,0 +1,8 @@
+{
+   "console.log": {
+      "scope": "livescript",
+      "prefix": "log",
+      "body": "console.log $0",
+      "description": "Log to the console"
+   }
+}

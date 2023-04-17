@@ -4,12 +4,12 @@
       {
          "label": "build",
          "type": "shell",
-         "command": "node build.js",
+         "command": "ls2 build.ls",
          "presentation": {
             "reveal": "silent",
             "revealProblems": "onProblem",
             "clear": true,
-            "close": true
+            // "close": true
          }
       }
    ]

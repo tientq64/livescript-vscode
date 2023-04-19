@@ -19,10 +19,15 @@ repository:
     - include: '#regexp'
     - include: '#function-arrow'
     - include: '#number'
+    - include: '#built-in-static-properties'
+    - include: '#built-in-static-methods'
+    - include: '#built-in-properties'
+    - include: '#built-in-methods'
     - include: '#property'
     - include: '#operator'
     - include: '#function-named'
     - include: '#class'
+    - include: '#declare'
     - include: '#storage'
     - include: '#constant'
     - include: '#keyword'
@@ -266,6 +271,26 @@ repository:
     - match: \d+(\.\d+)?([eE]-?\d+)?[\w$]*
       name: constant.numeric
 
+  built-in-static-properties:
+    patterns:
+    - match: ((?<=Number\.)(MAX_VALUE|MIN_VALUE|NaN|NEGATIVE_INFINITY|POSITIVE_INFINITY|MAX_SAFE_INTEGER|MIN_SAFE_INTEGER|EPSILON)|(?<=Math\.)(E|LN10|LN2|LOG10E|LOG2E|PI|SQRT1_2|SQRT2))(?![\w$])
+      name: storage.type.livescript
+
+  built-in-static-methods:
+    patterns:
+    - match: ((?<=String\.)(fromCharCode|fromCodePoint|raw)|(?<=Number\.)(isFinite|isInteger|isNaN|isSafeInteger|parseFloat|parseInt)|(?<=Array\.)(isArray|from|of)|(?<=Object\.)(assign|getOwnPropertyDescriptor|getOwnPropertyDescriptors|getOwnPropertyNames|getOwnPropertySymbols|hasOwn|is|preventExtensions|seal|create|defineProperties|defineProperty|freeze|getPrototypeOf|setPrototypeOf|isExtensible|isFrozen|isSealed|keys|entries|fromEntries|values)|(?<=Math\.)(abs|acos|acosh|asin|asinh|atan|atanh|atan2|ceil|cbrt|expm1|clz32|cos|cosh|exp|floor|fround|hypot|imul|log|log1p|log2|log10|max|min|pow|random|round|sign|sin|sinh|sqrt|tan|tanh|trunc))(?![\w$])
+      name: entity.name.function
+
+  built-in-properties:
+    patterns:
+    - match: (?<=[."')\]])(length|prototype)(?![\w$])
+      name: storage.type.livescript
+
+  built-in-methods:
+    patterns:
+    - match: (?<=[."')\]])(constructor|anchor|at|big|blink|bold|charAt|charCodeAt|codePointAt|concat|endsWith|fontcolor|fontsize|fixed|includes|indexOf|italics|lastIndexOf|link|localeCompare|match|matchAll|normalize|padEnd|padStart|repeat|replace|replaceAll|search|slice|small|split|strike|sub|substr|substring|sup|startsWith|toString|trim|trimStart|trimLeft|trimEnd|trimRight|toLocaleLowerCase|toLocaleUpperCase|toLowerCase|toUpperCase|valueOf|isWellFormed|toWellFormed|toExponential|toFixed|toPrecision|toString|valueOf|toLocaleString|at|concat|copyWithin|fill|find|findIndex|findLast|findLastIndex|lastIndexOf|pop|push|reverse|shift|unshift|slice|sort|splice|includes|indexOf|join|keys|entries|values|forEach|filter|flat|flatMap|map|every|some|reduce|reduceRight|toLocaleString|toString|toReversed|toSorted|toSpliced|with|__defineGetter__|__defineSetter__|hasOwnProperty|__lookupGetter__|__lookupSetter__|isPrototypeOf|propertyIsEnumerable|toString|valueOf|__proto__|toLocaleString)(?![\w$])
+      name: entity.name.function
+
   property:
     patterns:
     - match: (\@)([\w$]+)
@@ -280,19 +305,15 @@ repository:
           name: keyword.operator
         2:
           name: variable.other
-    - match: (\.)([\w$]+)
-      captures:
-        1:
-          name: punctuation.accessor
-        2:
-          name: variable.other
+    - match: (?<=\.)([\w$]+)
+      name: variable.other
     - match: (?<=["')\]}/]|[\w$])(~)([\w$]+)
       captures:
         1:
           name: punctuation.accessor
         2:
           name: variable.other
-    - match: (?<=["')\]}/])(~?)([\w$]+)
+    - match: (?<=["')\]}/]~?)([\w$]+)
       name: variable.other
 
   operator:
@@ -359,6 +380,15 @@ repository:
       name: punctuation.separator.comma
     - match: '[a-zA-Z_$][\w$]*'
       name: storage.type.livescript
+
+  declare:
+    patterns:
+    - match: (const) ([a-zA-Z_$][\w$]*)
+      captures:
+        1:
+          name: keyword.control
+        2:
+          name: constant.language
 
   storage:
     patterns:

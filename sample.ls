@@ -125,6 +125,10 @@ class implements C, D
 class extends B implements C
 class extends B implements C, D
 
+const abc = 1
+var def = 2
+ghi = 3
+
 fn = (a, [b = 9, c], d) !->
 fn = (a, [b = 9, c] = [], d) !->
 fm = (i, {j = 9, k}, l) !->
@@ -148,6 +152,10 @@ cc ::= class 4
 "class"class 4
 nam3~10
 nam3~10 = ->
+
+va.name
+va.indexOf
+
 switch ~xxx
 | \DF => 24k1G_m$a-3.3
 else 25.4
@@ -224,5 +232,7 @@ for v to 9
 a <<< b
 a <<<< b
 ``async function(sd = er + 50, hi = `sd`){}``
-``5// "" 4`` * -1``
-"" * -1
+``5// "" 4`` * -1
+``
+"meo" * -1
+va.indexOf

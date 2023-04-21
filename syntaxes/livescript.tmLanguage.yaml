@@ -394,6 +394,8 @@ repository:
     patterns:
     - match: (this|that|it|_)(?![\w$])
       name: storage.type.livescript
+    - match: (&)(?!&)
+      name: storage.type.livescript
 
   constant:
     patterns:

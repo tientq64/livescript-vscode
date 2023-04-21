@@ -142,6 +142,7 @@ ab.add = (a, ...b, [d, m], g) ~> c
 ab.45 = ->
 @class this adsd
 @class.class this adsd
+&length &&&
 b = {..class}
 b = {...class}
 cc.class 4

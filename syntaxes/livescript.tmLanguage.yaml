@@ -103,10 +103,12 @@ repository:
 
   string-backslash:
     patterns:
-    - match: \\(\S[^,;)\]}\s]*)
-      name: string.other
+    - match: (\\)(\S[^,;)\]}\s]*)
       captures:
         1:
+          name: punctuation
+        2:
+          name: string.other
           patterns:
           - match: \\(?:.|$)
             name: constant.character.escape

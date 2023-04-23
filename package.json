@@ -3,12 +3,14 @@
    "displayName": "LiveScript",
    "description": "LiveScript Programming Language",
    "version": "0.0.1",
+   "publisher": "tiencoffee",
    "engines": {
-      "vscode": "^1.75.1"
+      "vscode": "^1.74.0"
    },
    "categories": [
       "Programming Languages"
    ],
+   "main": "./dist/extension.js",
    "contributes": {
       "languages": [
          {

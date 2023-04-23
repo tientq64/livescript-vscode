@@ -3,7 +3,7 @@ description = "Toi la #name. Xin #{Date.now! + "haha" + nots % 4} chao #@hi #@44
 age /= -26.3e-5 + (\)hihi)
 
 if a / 56 => ccc * (4 + 5)
-else /^[^^a-z\]\S/sim$+\t\\ok]+?sd{,12}.(ed[x-s-])\+(?<!\/\t)\b\d*$/gmtest name
+else /^[^^a-z\]\S/sim$+\t\\ok]+?sd{,12}.(ed[s-x-])\+(?<!\/\t)\b\d*$/gmtest name
 
 func = ->
    'sos'
@@ -19,7 +19,11 @@ obj.func = (b, c = 4 + 5) ->
 obj = func: (sd = ~> hi, cm = 4)
 obj = func: (sd = 4, cm = (m) ~> hi) ~> 6
 !-> 45
+
 (a = 4, c = 'sd') ~> 123
+
+!function f1 p1
+   4
 
 for let vvv, iii in arr
 	if vvv is 1 and iii isnt 2 xor c
@@ -153,6 +157,11 @@ cc ::= class 4
 "class"class 4
 nam3~10
 nam3~10 = ->
+
+obj =
+   if: 4
+   16: var: off
+   class: (v) -> 10
 
 va.name
 va.indexOf

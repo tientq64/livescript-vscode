@@ -2,6 +2,8 @@ process.chdir __dirname
 
 require! {
    "fs-extra": fs
+   "livescript2": livescript
+   \terser
    \js-yaml
 }
 
@@ -11,6 +13,15 @@ if fs.existsSync vscodeExtsPath
    const vscodeExtsLiveScriptPath = "#vscodeExtsPath/livescript"
 
    fs.emptyDirSync vscodeExtsLiveScriptPath
+
+   code = fs.readFileSync \./src/extension.ls \utf8
+   code = livescript.compile code,
+      bare: yes
+   code = await terser.minify code
+   code .= code
+   fs.outputFileSync "#vscodeExtsLiveScriptPath/dist/extension.js" code
+
+   fs.copySync \./src/libs/livescript.min.js "#vscodeExtsLiveScriptPath/dist/libs/livescript.min.js"
 
    text = fs.readFileSync \./syntaxes/livescript.tmLanguage.yaml \utf8
    json = jsYaml.load text

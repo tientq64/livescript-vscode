@@ -1,5 +1,5 @@
 a = 1
-a := ->
+a := ~>
 	b = Number(4)
 	b
 while 0
@@ -9,7 +9,9 @@ while 0
 obj =
 	method: -> 1
 obj do
-	method: -> 1
+	oninit: -> 1
+	view: ->
+
 method: -> 1
 
 class A

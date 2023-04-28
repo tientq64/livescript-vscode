@@ -59,7 +59,7 @@ if fs.existsSync vscodeExtsPath
       else
          if props.length
             yaml = """
-               - match: (?<![."')\\]}?!])(#prefix)(\\.)(#{props.join \|})(?![\w$])
+               - match: (?<![."')\\]}?!])(#prefix)(\\.)(#{props.join \|})(?![\\w$])
                  captures:
                    1:
                      name: storage.type.livescript
@@ -72,7 +72,7 @@ if fs.existsSync vscodeExtsPath
             map.builtInStaticProps.push yaml
          if methods.length
             yaml = """
-               - match: (?<![."')\\]}?!])(#prefix)(\\.)(#{methods.join \|})(?![\w$])
+               - match: (?<![."')\\]}?!])(#prefix)(\\.)(#{methods.join \|})(?![\\w$])
                  captures:
                    1:
                      name: storage.type.livescript
@@ -98,7 +98,6 @@ if fs.existsSync vscodeExtsPath
    syntaxes .= replace /\{\{ (\w+) \}\}/gm (, name) ~>
       map[name]
 
-   fs.outputFileSync "./a.yaml" syntaxes
    json = jsYaml.load syntaxes
    fs.outputJsonSync "#vscodeExtsLiveScriptPath/syntaxes/livescript.tmLanguage.json" json
    fs.outputJsonSync "#vscodeExtsLiveScriptPath/snippets/livescript.code-snippets" snippets

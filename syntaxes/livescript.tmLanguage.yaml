@@ -276,23 +276,29 @@ repository:
 
   built-in-static-props:
     patterns:
-    - match: (?<![."')\]?!])({{ builtInStaticProps }})(?![\w$])
-      name: storage.type.livescript
+    {{ builtInStaticProps }}
 
   built-in-static-methods:
     patterns:
-    - match: (?<![."')\]?!])({{ builtInStaticMethods }})(?![\w$])
-      name: entity.name.function
+    {{ builtInStaticMethods }}
 
   built-in-proto-props:
     patterns:
-    - match: (?<=[."')\]?!])({{ builtInProtoProps }})(?![\w$])
-      name: storage.type.livescript
+    - match: (?:(?<=[."')\]}?!])|(\.))({{ builtInProtoProps }})(?![\w$])
+      captures:
+        1:
+          name: punctuation.accessor
+        2:
+          name: storage.type.livescript
 
   built-in-proto-methods:
     patterns:
-    - match: (?<=[."')\]?!])({{ builtInProtoMethods }})(?![\w$])
-      name: entity.name.function
+    - match: (?:(?<=[."')\]}?!])|(\.))({{ builtInProtoMethods }})(?![\w$])
+      captures:
+        1:
+          name: punctuation.accessor
+        2:
+          name: entity.name.function
 
   property:
     patterns:
@@ -310,8 +316,12 @@ repository:
           name: variable.other
     - match: ([a-zA-Z_$][\w$]*)(?= *:[^:])
       name: variable.other
-    - match: (?<=\.)([\w$]+)
-      name: variable.other
+    - match: (\.)([\w$]+)
+      captures:
+        1:
+          name: punctuation.accessor
+        2:
+          name: variable.other
     - match: (?<=["')\]}/]|[\w$])(~)([\w$]+)
       captures:
         1:

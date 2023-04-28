@@ -58,20 +58,47 @@ if fs.existsSync vscodeExtsPath
                description: k
       else
          if props.length
-            map.builtInStaticProps.push "(?<=#prefix\\.)(?:#{props.join \|})"
+            yaml = """
+               - match: (?<![."')\\]}?!])(#prefix)(\\.)(#{props.join \|})(?![\w$])
+                 captures:
+                   1:
+                     name: storage.type.livescript
+                   2:
+                     name: punctuation.accessor
+                   3:
+                     name: storage.type.livescript
+            """
+            yaml .= replace /^/gm "    " .trimLeft!
+            map.builtInStaticProps.push yaml
          if methods.length
-            map.builtInStaticMethods.push "(?<=#prefix\\.)(?:#{methods.join \|})"
+            yaml = """
+               - match: (?<![."')\\]}?!])(#prefix)(\\.)(#{methods.join \|})(?![\w$])
+                 captures:
+                   1:
+                     name: storage.type.livescript
+                   2:
+                     name: punctuation.accessor
+                   3:
+                     name: entity.name.function
+            """
+            yaml .= replace /^/gm "    " .trimLeft!
+            map.builtInStaticMethods.push yaml
          for name in props ++ methods
             snippets"#prefix.#name" =
                scope: \livescript
                prefix: "#prefix.#name"
                body: "#prefix.#name"
                description: k
-   for k, val of map
-      map[k] = [...new Set val]join \|
-   syntaxes .= replace /\{\{ (\w+) \}\}/g (, name) ~>
+   map.windowProps = [...new Set map.windowProps]join \|
+   map.windowMethods = [...new Set map.windowMethods]join \|
+   map.builtInStaticProps .= join "\n    "
+   map.builtInStaticMethods .= join "\n    "
+   map.builtInProtoProps = [...new Set map.builtInProtoProps]join \|
+   map.builtInProtoMethods = [...new Set map.builtInProtoMethods]join \|
+   syntaxes .= replace /\{\{ (\w+) \}\}/gm (, name) ~>
       map[name]
 
+   fs.outputFileSync "./a.yaml" syntaxes
    json = jsYaml.load syntaxes
    fs.outputJsonSync "#vscodeExtsLiveScriptPath/syntaxes/livescript.tmLanguage.json" json
    fs.outputJsonSync "#vscodeExtsLiveScriptPath/snippets/livescript.code-snippets" snippets

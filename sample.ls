@@ -133,6 +133,18 @@ const abc = 1
 var def = 2
 ghi = 3
 
+Math.PI
+Math.random
+a.Math.PI
+a.Math.PIss
+.length
+a.length
+a.replace
+a.replacess
+[]replace
+""replace
+@replace
+
 fn = (a, [b = 9, c], d) !->
 fn = (a, [b = 9, c] = [], d) !->
 fm = (i, {j = 9, k}, l) !->

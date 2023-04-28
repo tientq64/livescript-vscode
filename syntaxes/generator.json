@@ -1248,6 +1248,21 @@
          "stringify"
       ]
    },
+   "Promise": {
+      "props": [
+         "length",
+         "name",
+         "prototype"
+      ],
+      "methods": [
+         "all",
+         "allSettled",
+         "any",
+         "race",
+         "resolve",
+         "reject"
+      ]
+   },
    "Intl": {
       "props": [
          "DateTimeFormat",
@@ -1853,6 +1868,15 @@
          "bind",
          "call",
          "toString"
+      ]
+   },
+   "Promise.prototype": {
+      "props": [],
+      "methods": [
+         "constructor",
+         "then",
+         "catch",
+         "finally"
       ]
    }
 }

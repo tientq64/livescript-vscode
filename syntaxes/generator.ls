@@ -8,6 +8,7 @@ objKeys = <[
    Math
    Node
    JSON
+   Promise
    Intl
    Document.prototype|document
    String.prototype
@@ -17,6 +18,7 @@ objKeys = <[
    Node.prototype
    Element.prototype
    Function.prototype
+   Promise.prototype
 ]>
 
 objs = {}

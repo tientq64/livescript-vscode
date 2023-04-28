@@ -276,12 +276,12 @@ repository:
 
   built-in-static-props:
     patterns:
-    - match: ({{ builtInStaticProps }})(?![\w$])
+    - match: (?<![."')\]?!])({{ builtInStaticProps }})(?![\w$])
       name: storage.type.livescript
 
   built-in-static-methods:
     patterns:
-    - match: ({{ builtInStaticMethods }})(?![\w$])
+    - match: (?<![."')\]?!])({{ builtInStaticMethods }})(?![\w$])
       name: entity.name.function
 
   built-in-proto-props:
@@ -397,7 +397,7 @@ repository:
 
   storage:
     patterns:
-    - match: (this|that|it|_)(?![\w$])
+    - match: (arguments|this|that|super|it|_)(?![\w$])
       name: storage.type.livescript
     - match: (&)(?!&)
       name: storage.type.livescript

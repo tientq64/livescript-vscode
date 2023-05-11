@@ -43,7 +43,7 @@ repository:
       captures:
         0:
           name: punctuation
-      contentName: string.quoted.single
+      name: string.quoted.single
       patterns:
       - match: \\.
         name: constant.character.escape
@@ -55,7 +55,7 @@ repository:
       captures:
         0:
           name: punctuation
-      contentName: string.quoted.double
+      name: string.quoted.double
       patterns:
       - match: \\.
         name: constant.character.escape
@@ -66,7 +66,7 @@ repository:
             name: variable.parameter.livescript
         patterns:
         - include: '#expr'
-      - match: \#(?:@?[a-zA-Z_$][\w$]*|@)
+      - match: \#(?:@?[a-zA-Z_$][\w$]*|@\d*)
         name: variable.parameter.livescript
 
   string-single:
@@ -76,7 +76,7 @@ repository:
       captures:
         0:
           name: punctuation
-      contentName: string.quoted.single
+      name: string.quoted.single
       patterns:
       - match: \\.
         name: constant.character.escape
@@ -88,7 +88,7 @@ repository:
       captures:
         0:
           name: punctuation
-      contentName: string.quoted.double
+      name: string.quoted.double
       patterns:
       - match: \\.
         name: constant.character.escape
@@ -99,17 +99,17 @@ repository:
             name: variable.parameter.livescript
         patterns:
         - include: '#expr'
-      - match: \#(?:@?[a-zA-Z_$][\w$]*|@)
+      - match: \#(?:@?[a-zA-Z_$][\w$]*|@\d*)
         name: variable.parameter.livescript
 
   string-backslash:
     patterns:
     - match: (\\)(\S[^,;)\]}\s]*)
+      name: string.other
       captures:
         1:
           name: punctuation
         2:
-          name: string.other
           patterns:
           - match: \\(?:.|$)
             name: constant.character.escape
@@ -151,7 +151,7 @@ repository:
       captures:
         0:
           name: keyword.other
-      contentName: string.regexp
+      name: string.regexp
       patterns:
       - include: '#heregex-content'
 
@@ -206,7 +206,7 @@ repository:
       captures:
         0:
           name: keyword.other
-      contentName: string.regexp
+      name: string.regexp
       patterns:
       - include: '#regexp-content'
 
@@ -284,20 +284,24 @@ repository:
 
   built-in-proto-props:
     patterns:
-    - match: (?:(?<=[."')\]}?!])|(\.))({{ builtInProtoProps }})(?![\w$])
+    - match: (?:(?<=["')\]}?!]~?|[\w.]~)|(\.= *)|(\.))({{ builtInProtoProps }})(?![\w$])
       captures:
         1:
-          name: punctuation.accessor
+          name: keyword.operator
         2:
+          name: punctuation.accessor
+        3:
           name: storage.type.livescript
 
   built-in-proto-methods:
     patterns:
-    - match: (?:(?<=[."')\]}?!])|(\.))({{ builtInProtoMethods }})(?![\w$])
+    - match: (?:(?<=["')\]}?!]~?|[\w.]~)|(\.= *)|(\.))({{ builtInProtoMethods }})(?![\w$])
       captures:
         1:
-          name: punctuation.accessor
+          name: keyword.operator
         2:
+          name: punctuation.accessor
+        3:
           name: entity.name.function
 
   property:
@@ -322,12 +326,12 @@ repository:
           name: punctuation.accessor
         2:
           name: variable.other
-    - match: (?<=["')\]}/]|[\w$])(~)([\w$]+)
-      captures:
-        1:
-          name: punctuation.accessor
-        2:
-          name: variable.other
+    # - match: (?<=["')\]}/]|[\w$])(~)([\w$]+)
+    #   captures:
+    #     1:
+    #       name: punctuation.accessor
+    #     2:
+    #       name: variable.other
     - match: (?<=["')\]}/]~?)([\w$]+)
       name: variable.other
 
@@ -407,7 +411,7 @@ repository:
 
   storage:
     patterns:
-    - match: (arguments|this|that|super|it|_)(?![\w$])
+    - match: (arguments|this|that|super|it|e|_)(?![\w$])
       name: storage.type.livescript
     - match: (&)(?!&)
       name: storage.type.livescript
@@ -424,7 +428,7 @@ repository:
 
   window-props:
     patterns:
-    - match: ({{ windowProps }}|process|module|livescript|stylus|m|fs|Phaser|vscode)(?![\w$])
+    - match: ({{ windowProps }}|process|module|livescript|stylus|m|fs|Phaser|vscode|dayjs|os)(?![\w$])
       name: storage.type.livescript
 
   window-methods:
@@ -438,6 +442,8 @@ repository:
       name: punctuation.accessor
     - match: \,
       name: punctuation.separator.comma
+    - match: \;
+      name: punctuation.terminator.statement
 
   variable:
     patterns:

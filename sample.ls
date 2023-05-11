@@ -85,6 +85,8 @@ do !->
 @item = @items.find (?value is @attrs.value)
 if a = b
    789
+
+bc = "meo con cute" + name
 "\u0065ag\u4E0dr\u{45}v\u{1f5c6}\u{ffff}fm\xa0\" \041"
 \\
 \\;
@@ -102,7 +104,7 @@ asd = mi (a = 8, {b: [...a]}, ...c) !~>
    "bear #@cd"
    "bear #this"
    "bear #@"
-   "bear #4"
+   "bear #4 #@41sao @name"
    "bear #4we"
    "bear #@5"
    "bear #@5qw"
@@ -143,9 +145,16 @@ a.replace
 a.replacess
 []replace
 ""replace
+a~replace
+a.~replace
+""~replace
+"".~replace
+~replace
 @replace
+a .= replace
+4~5
 
-fn = (a, [b = 9, c], d) !->
+fn = (a, [b = 9, c], d) !->*
 fn = (a, [b = 9, c] = [], d) !->
 fm = (i, {j = 9, k}, l) !->
 fm = (i, {j = 9, k} = {}, l) !->

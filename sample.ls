@@ -3,7 +3,7 @@ description = "Toi la #name. Xin #{Date.now! + "haha" + nots % 4} chao #@hi #@44
 age /= -26.3e-5 + (\)hihi)
 
 if a / 56 => ccc * (4 + 5)
-else /^[^^a-z\]\S/sim$+\t\\ok]+?sd{,12}.(ed[s-x-])\+(?<!\/\t)\b\d*$/gmtest name
+else /^[^^a-z\]\S/sim$+\t\\ok]+?sd{,12}.(ed[s-x-])\+(?<!\/\t)\b\d*$/gmgstest name
 
 func = ->
    'sos'
@@ -215,7 +215,14 @@ num /= 8 ** hex
 num /= Math.ceil 41 + 3
 num %%= 8 + hex
 bun = er = ~> 12
+a <[
+   so
+   #metoo
+   sad
+]> 9
 regex = /asdm78*(?=sd).+\//gsuo
+a.map (v /) .join \%
+(/\)name/)
 //# qqq_r
    h \  a\s|[ ]  \   # hasid
    zzz#hi   # ygd #{

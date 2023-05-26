@@ -53,8 +53,8 @@ if fs.existsSync vscodeExtsPath
          for name in props ++ methods
             snippets".#name" =
                scope: \livescript
-               prefix: ".#name"
-               body: ".#name"
+               prefix: name
+               body: name
                description: k
       else
          if props.length

@@ -33,9 +33,15 @@ for val in objKeys
 for k, res of objs
    obj = window.eval(k)
    descs = Object.getOwnPropertyDescriptors obj
+   willIgnoreName = k is \window or (k.includes \.prototype and not res.prefix)
+
    for name, desc of descs
-      if k is \window and name in [\livescript]
+      if k is \window and name in <[livescript]>
          continue
+
+      if willIgnoreName and name in <[name]>
+         continue
+
       if (typeof desc.value isnt \function) or (name.0 is name.0.toUpperCase! and name isnt name.toUpperCase!)
          res.props.push name
       else
@@ -48,8 +54,8 @@ preEl.textContent = json
 addEventListener \keydown (event) !->
    if event.code is \KeyS
       [file] = await showOpenFilePicker do
-         excludeAcceptAllOption: yes
          suggestedName: \generator.json
+         excludeAcceptAllOption: yes
          types: [
             description: \JSON
             accept:

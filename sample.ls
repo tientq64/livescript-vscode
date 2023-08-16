@@ -153,6 +153,7 @@ a.~replace
 @replace
 a .= replace
 4~5
+a.120
 
 fn = (a, [b = 9, c], d) !->*
 fn = (a, [b = 9, c] = [], d) !->
@@ -178,6 +179,9 @@ cc ::= class 4
 "class"class 4
 nam3~10
 nam3~10 = ->
+
+:build loop
+   break build
 
 obj =
    if: 4

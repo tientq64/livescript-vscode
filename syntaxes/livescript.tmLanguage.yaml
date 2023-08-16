@@ -6,8 +6,8 @@ patterns:
 repository:
   expr:
     patterns:
-    - include: '#string-multiline-single'
-    - include: '#string-multiline-double'
+    - include: '#string-triple-single'
+    - include: '#string-triple-double'
     - include: '#string-single'
     - include: '#string-double'
     - include: '#string-backslash'
@@ -18,6 +18,7 @@ repository:
     - include: '#heregex'
     - include: '#regexp'
     - include: '#function-arrow'
+    - include: '#label'
     - include: '#number'
     - include: '#built-in-static-props'
     - include: '#built-in-static-methods'
@@ -36,7 +37,7 @@ repository:
     - include: '#punctuation'
     - include: '#variable'
 
-  string-multiline-single:
+  string-triple-single:
     patterns:
     - begin: \'''
       end: \'''
@@ -48,7 +49,7 @@ repository:
       - match: \\.
         name: constant.character.escape
 
-  string-multiline-double:
+  string-triple-double:
     patterns:
     - begin: \"""
       end: \"""
@@ -60,7 +61,7 @@ repository:
       - match: \\.
         name: constant.character.escape
       - begin: \#{
-        end: \}|$
+        end: \}
         captures:
           0:
             name: variable.parameter.livescript
@@ -72,7 +73,7 @@ repository:
   string-single:
     patterns:
     - begin: \'
-      end: \'|$
+      end: \'
       captures:
         0:
           name: punctuation
@@ -84,7 +85,7 @@ repository:
   string-double:
     patterns:
     - begin: \"
-      end: \"|$
+      end: \"
       captures:
         0:
           name: punctuation
@@ -93,7 +94,7 @@ repository:
       - match: \\.
         name: constant.character.escape
       - begin: \#{
-        end: \}|$
+        end: \}
         captures:
           0:
             name: variable.parameter.livescript
@@ -266,6 +267,21 @@ repository:
         8:
           name: keyword.other
 
+  label:
+    patterns:
+    - match: (:)([a-zA-Z_$][\w$]*)
+      captures:
+        1:
+          name: punctuation.separator.label
+        2:
+          name: entity.name.label
+    - match: (break)\s+([a-zA-Z_$][\w$]*)
+      captures:
+        1:
+          name: keyword.control
+        2:
+          name: entity.name.label
+
   number:
     patterns:
     - match: \d\d?~[\da-zA-Z]+
@@ -321,7 +337,7 @@ repository:
           name: variable.other
     - match: ([a-zA-Z_$][\w$]*)(?= *:[^:])
       name: variable.other
-    - match: (\.)([\w$]+)
+    - match: (\.)([a-zA-Z_$][\w$]*)
       captures:
         1:
           name: punctuation.accessor

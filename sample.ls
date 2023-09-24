@@ -6,16 +6,16 @@ if a / 56 => ccc * (4 + 5)
 else /^[^^a-z\]\S/sim$+\t\\ok]+?sd{,12}.(ed[s-x-])\+(?<!\/\t)\b\d*$/gmgstest name
 
 func = ->
-   'sos'
+  'sos'
 func = (b) ->
-   'sos'
+  'sos'
 func = (b, c) ->
-   'sos'
+  'sos'
 func = (b, c) -> 'sos'
 func = (b, c) !->
-   'sos'
+  'sos'
 obj.func = (b, c = 4 + 5) ->
-   'sos'
+  'sos'
 obj = func: (sd = ~> hi, cm = 4)
 obj = func: (sd = 4, cm = (m) ~> hi) ~> 6
 !-> 45
@@ -23,24 +23,24 @@ obj = func: (sd = 4, cm = (m) ~> hi) ~> 6
 (a = 4, c = 'sd') ~> 123
 
 !function f1 p1
-   4
+  4
 
 for let vvv, iii in arr
-	if vvv is 1 and iii isnt 2 xor c
-		break
-	else
-		vvv = vvv.trim!
+  if vvv is 1 and iii isnt 2 xor c
+    break
+  else
+    vvv = vvv.trim!
 for let kaka, val of obj
-	123
-	let gc = 1
-		45
-	kaka += 1
+  123
+  let gc = 1
+    45
+  kaka += 1
 for let kaka of obj
-	123
+  123
 for let , val of obj
-	123
+  123
 for let own a of b
-	c a
+  c a
 var xz
 t = 4
 b = await import \https://cdn.skypack.dev/@octokit/rest
@@ -72,7 +72,7 @@ aa + sd
 aa += sd
 
 do !->
-   456
+  456
 
 # if aa.find (qw) ~> qw is 10
 # 	456
@@ -84,7 +84,7 @@ do !->
  */
 @item = @items.find (?value is @attrs.value)
 if a = b
-   789
+  789
 
 bc = "meo con cute" + name
 "\u0065ag\u4E0dr\u{45}v\u{1f5c6}\u{ffff}fm\xa0\" \041"
@@ -95,28 +95,28 @@ bc = "meo con cute" + name
 \;
 
 asd = mi (a = 8, {b: [...a]}, ...c) !~>
-   c++
-   c = 4
-   [v, ...d] = c
-   @4sd"á   d-jk\t\\😙""mHK"\kk4's\ad"'"sd"
-   @ab-45/a/iv
-   "bear #ab-78ao-o"
-   "bear #@cd"
-   "bear #this"
-   "bear #@"
-   "bear #4 #@41sao @name"
-   "bear #4we"
-   "bear #@5"
-   "bear #@5qw"
-   "bear #@'ef'"
-   "bear #{@gh}"
-   sdf = !->
-      @ij
-      "GHi #@kl"
+  c++
+  c = 4
+  [v, ...d] = c
+  @4sd"á   d-jk\t\\😙""mHK"\kk4's\ad"'"sd"
+  @ab-45/a/iv
+  "bear #ab-78ao-o"
+  "bear #@cd"
+  "bear #this"
+  "bear #@"
+  "bear #4 #@41sao @name"
+  "bear #4we"
+  "bear #@5"
+  "bear #@5qw"
+  "bear #@'ef'"
+  "bear #{@gh}"
+  sdf = !->
+    @ij
+    "GHi #@kl"
 arr.find (.a)
 
 !function mdddd +mm::t = 7, -cn = 8, [nn, j]
-   &4::mJ
+  &4::mJ
 
 class
 class A
@@ -161,7 +161,7 @@ fm = (i, {j = 9, k}, l) !->
 fm = (i, {j = 9, k} = {}, l) !->
 12 + 13
 if isString
-   m that
+  m that
 add = (a, ...b) -> @c
 add = sub = (a, ...b) -> @c
 ab.add = (a, ...b, [d, m], g) ~> c
@@ -181,12 +181,12 @@ nam3~10
 nam3~10 = ->
 
 :build loop
-   break build
+  break build
 
 obj =
-   if: 4
-   16: var: off
-   class: (v) -> 10
+  if: 4
+  16: var: off
+  class: (v) -> 10
 
 va.name
 va.indexOf
@@ -220,48 +220,48 @@ num /= Math.ceil 41 + 3
 num %%= 8 + hex
 bun = er = ~> 12
 a <[
-   so
-   #metoo
-   sad
+  so
+  #metoo
+  sad
 ]> 9
 regex = /asdm78*(?=sd).+\//gsuo
 a.map (v /) .join \%
 (/\)name/)
 //# qqq_r
-   h \  a\s|[ ]  \   # hasid
-   zzz#hi   # ygd #{
-      cuc /
-      400 - 1.4
-   }#
-   #
-   i\j #@aj\nkk\t
-   #{} #
-   ok \# haaha- #{4 + \sd}
-   #123
-   # 456
-   q#A
-   q# B
-   q #C
-   q # D
-   q #!E
-   mo   \
-   Zasxx # @saw41name ero #zwe \tname # sdd #erer #)9
-   @a #@regex as
+  h \  a\s|[ ]  \   # hasid
+  zzz#hi   # ygd #{
+    cuc /
+    400 - 1.4
+  }#
+  #
+  i\j #@aj\nkk\t
+  #{} #
+  ok \# haaha- #{4 + \sd}
+  #123
+  # 456
+  q#A
+  q# B
+  q #C
+  q # D
+  q #!E
+  mo   \
+  Zasxx # @saw41name ero #zwe \tname # sdd #erer #)9
+  @a #@regex as
 //g
 //
-   (?<=^[A-Z]\.\s*[a-z-]+\s)[a-z-]+|
-   (?<=^[A-Z]\.\s*[-a-z]\.\s*)[-a-z]+|
-   (?<=^[A-Z][a-z]+\s[-a-z]+\s)[-a-z]+|
-   (?<=^[A-Z][a-z]+\s[-a-z]\.\s*)[-a-z]+
+  (?<=^[A-Z]\.\s*[a-z-]+\s)[a-z-]+|
+  (?<=^[A-Z]\.\s*[-a-z]\.\s*)[-a-z]+|
+  (?<=^[A-Z][a-z]+\s[-a-z]+\s)[-a-z]+|
+  (?<=^[A-Z][a-z]+\s[-a-z]\.\s*)[-a-z]+
 //
 //rt//mi
 aa = "
-   h   ho
-   jk
+  h   ho
+  jk
 "
 aa = aa + """
-   h   ho
-   jk
+  h   ho
+  jk
 """
 gg = [-4 to 90]
 arr[16 to 60]
@@ -270,7 +270,7 @@ arr[16 til 60]
 \m * 44
 [\a to \r]
 for v to 9
-   console.log v
+  console.log v
 a <<< b
 a <<<< b
 ``async function(sd = er + 50, hi = `sd`){}``

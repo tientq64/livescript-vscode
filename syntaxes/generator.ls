@@ -1,4 +1,4 @@
-objKeys = <[
+items = <[
   window
   String
   Number
@@ -6,61 +6,75 @@ objKeys = <[
   Object
   Symbol
   Math
+  Date
   Node
   JSON
   Promise
+  Reflect
   Intl
-  Document.prototype|document
-  String.prototype
-  Number.prototype
-  Array.prototype
-  RegExp.prototype
-  Node.prototype
-  Element.prototype
-  Function.prototype
-  Promise.prototype
+  URL
+  Window
+  DOMException
+  location
+  console
+  Document::|document
+  Navigator::|navigator
+  Screen::|screen
+  History::|history
+  Storage::|localStorage
+  Storage::|sessionStorage
+  Event::|event
+  Clipboard::|navigator.clipboard
+  String::
+  Number::
+  Array::
+  RegExp::
+  Date::
+  Node::
+  Element::
+  HTMLElement::
+  Function::
+  Promise::
+  EventTarget::
+  Crypto::|crypto
+  Selection::
+  CanvasRenderingContext2D::
+  FormData::
+  Response::
+  FileReader::
+  File::
+  Blob::
+  HTMLMediaElement::
+  HTMLCanvasElement::
+  BatteryManager::
 ]>
 
-objs = {}
-for val in objKeys
-  [val, prefix] = val.split \|
-  objs[val] =
+for item, i in items
+  [proto, instance] = item.split \|
+  if !instance and !proto.includes \::
+    instance = proto
+  items[i] =
+    key: item
+    proto: proto
+    instance: instance
     props: []
     methods: []
-  if prefix?
-    objs[val].prefix = prefix
 
-for k, res of objs
-  obj = window.eval(k)
+delete window.livescript
+
+for item in items
+  obj = window.eval item.proto.replace \:: \.prototype
   descs = Object.getOwnPropertyDescriptors obj
-  willIgnoreName = k is \window or (k.includes \.prototype and not res.prefix)
 
   for name, desc of descs
-    if k is \window and name in <[livescript]>
-      continue
-
-    if willIgnoreName and name in <[name]>
-      continue
-
-    if (typeof desc.value isnt \function) or (name.0 is name.0.toUpperCase! and name isnt name.toUpperCase!)
-      res.props.push name
+    if typeof desc.value == \function
+      item.methods.push name
     else
-      res.methods.push name
+      item.props.push name
 
-json = JSON.stringify objs,, "  "
-
+json = JSON.stringify items,, "  "
 preEl.textContent = json
 
-addEventListener \keydown (event) !->
-  if event.code is \KeyS
-    [file] = await showOpenFilePicker do
-      suggestedName: \generator.json
-      excludeAcceptAllOption: yes
-      types: [
-        description: \JSON
-        accept:
-          "application/json": [\.json]
-      ]
-    writable = await file.createWritable!
-    await writable.write json
-    await writable.close!
+preEl.addEventListener \click (event) !~>
+  jsonMin = JSON.stringify items
+  navigator.clipboard.writeText jsonMin

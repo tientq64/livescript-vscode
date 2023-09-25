@@ -20,10 +20,8 @@ repository:
     - include: '#function-arrow'
     - include: '#label'
     - include: '#number'
-    - include: '#built-in-static-props'
-    - include: '#built-in-static-methods'
-    - include: '#built-in-proto-props'
-    - include: '#built-in-proto-methods'
+    - include: '#static-methods'
+    - include: '#proto-methods'
     - include: '#property'
     - include: '#operator'
     - include: '#function-named'
@@ -275,7 +273,7 @@ repository:
           name: punctuation.separator.label.livescript
         2:
           name: entity.name.label.livescript
-    - match: (break)\s+([a-zA-Z_$][\w$]*)
+    - match: (break|continue)\s+([a-zA-Z_$][\w$]*)
       captures:
         1:
           name: keyword.control.livescript
@@ -291,28 +289,13 @@ repository:
     - match: \d+(\.\d+)?([eE]-?\d+)?[\w$]*
       name: constant.numeric.livescript
 
-  built-in-static-props:
+  static-methods:
     patterns:
-    {{ builtInStaticProps }}
+    ##staticMethods##
 
-  built-in-static-methods:
+  proto-methods:
     patterns:
-    {{ builtInStaticMethods }}
-
-  built-in-proto-props:
-    patterns:
-    - match: (?:(?<=["')\]}?!]~?|[\w.]~)|(\.= *)|(\.))({{ builtInProtoProps }})(?![\w$])
-      captures:
-        1:
-          name: keyword.operator.livescript
-        2:
-          name: punctuation.accessor.livescript
-        3:
-          name: storage.type.livescript
-
-  built-in-proto-methods:
-    patterns:
-    - match: (?:(?<=["')\]}?!]~?|[\w.]~)|(\.= *)|(\.))({{ builtInProtoMethods }})(?![\w$])
+    - match: (?:(?<=["')\]}?!]~?|[\w.]~)|(\.= *)|(\.))(##protoMethods##)(?![\w$])
       captures:
         1:
           name: keyword.operator.livescript
@@ -328,13 +311,15 @@ repository:
         1:
           name: storage.type.livescript
         2:
-          name: variable.other.livescript
+          patterns:
+          - include: '#variable'
     - match: (\.= *|::= *|\.\.|::)([\w$]+)
       captures:
         1:
           name: keyword.operator.livescript
         2:
-          name: variable.other.livescript
+          patterns:
+          - include: '#variable'
     - match: ([a-zA-Z_$][\w$]*)(?= *:[^:])
       name: variable.other.livescript
     - match: (\.)([a-zA-Z_$][\w$]*)
@@ -342,15 +327,19 @@ repository:
         1:
           name: punctuation.accessor.livescript
         2:
-          name: variable.other.livescript
+          patterns:
+          - include: '#variable'
     # - match: (?<=["')\]}/]|[\w$])(~)([\w$]+)
     #   captures:
     #     1:
     #       name: punctuation.accessor.livescript
     #     2:
     #       name: variable.other.livescript
-    - match: (?<=["')\]}/]~?)([\w$]+)
-      name: variable.other.livescript
+    - match: (?<=["')\]}/]~?)[\w$]+
+      captures:
+        0:
+          patterns:
+          - include: '#variable'
 
   operator:
     patterns:
@@ -445,12 +434,12 @@ repository:
 
   window-props:
     patterns:
-    - match: ({{ windowProps }}|process|module|livescript|stylus|m|fs|Phaser|Popper|React|vscode|dayjs|\$|os)(?![\w$])
+    - match: (document|location|navigator|screen|history|localStorage|sessionStorage|console|process|module|livescript|stylus|m|fs|vscode|dayjs|\$|os)(?![\w$])
       name: storage.type.livescript
 
   window-methods:
     patterns:
-    - match: ({{ windowMethods }}|require|import)(?![\w$])
+    - match: (##windowMethods##|require|import)(?![\w$])
       name: entity.name.function.livescript
 
   punctuation:
@@ -464,5 +453,9 @@ repository:
 
   variable:
     patterns:
+    - match: '[A-Z][A-Z0-9_$]*(?![\w$])'
+      name: constant.language.livescript
+    - match: '[A-Z][\w$]+(?![\w$])'
+      name: storage.type.livescript
     - match: '[a-zA-Z_$][\w$]*'
       name: variable.other.livescript

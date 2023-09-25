@@ -1,6 +1,6 @@
 {
   "name": "livescript-vscode",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "displayName": "LiveScript 2",
   "description": "Syntax highlighting, autocomplete, and snippets",
   "icon": "./icon.png",
@@ -25,6 +25,20 @@
     "Programming Languages",
     "Snippets"
   ],
+  "keywords": [
+    "livescript",
+    "syntax-highlighting",
+    "autocomplete",
+    "snippets",
+    "vscode-extension"
+  ],
+  "devDependencies": {
+    "fs-extra": "^11.1.1",
+    "livescript2": "^1.5.0",
+    "terser": "^5.20.0",
+    "js-yaml": "^4.1.0",
+    "@vscode/vsce": "^2.21.0"
+  },
   "contributes": {
     "languages": [
       {

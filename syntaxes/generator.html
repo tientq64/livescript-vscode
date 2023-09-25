@@ -2,18 +2,35 @@
 <html lang="en">
 
 <head>
-   <meta charset="utf-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generator</title>
 
-   <title>Generator</title>
+  <script src="https://cdn.jsdelivr.net/npm/livescript2@1.5.0/livescript.min.js"></script>
+  <script src="./generator.ls" type="text/ls"></script>
 
-   <script src="https://cdn.jsdelivr.net/npm/livescript2@1.5.0/livescript.min.js"></script>
-   <script src="./generator.ls" type="text/ls"></script>
+  <style>
+    *, ::before, ::after {
+      box-sizing: border-box;
+    }
+    html {
+      height: 100%;
+    }
+    body {
+      height: 100%;
+      margin: 0;
+    }
+    #preEl {
+      margin: 0;
+      padding: 8px 16px;
+      font: 14.5px "Menlo", monospace;
+      cursor: copy;
+    }
+  </style>
 </head>
 
 <body>
-   <p>Press S key to save: <b>./syntaxes/generator.json</b></p>
-   <pre id="preEl"></pre>
+  <pre id="preEl" readonly></pre>
 </body>
 
 </html>

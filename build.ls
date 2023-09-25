@@ -8,109 +8,117 @@ require! {
   \@vscode/vsce
 }
 
-const distPath = \./dist
+const dist = \./dist
 
-fs.emptyDirSync distPath
+fs.emptyDirSync dist
 
 # code = fs.readFileSync \./src/extension.ls \utf8
 # code = livescript.compile code,
 #   bare: yes
 # code = await terser.minify code
 # code .= code
-# fs.outputFileSync "#distPath/dist/extension.js" code
+# fs.outputFileSync "#dist/dist/extension.js" code
 
-# fs.copySync \./src/libs/livescript.min.js "#distPath/dist/libs/livescript.min.js"
+# fs.copySync \./src/libs/livescript.min.js "#dist/dist/libs/livescript.min.js"
 
-syntaxes = fs.readFileSync \./syntaxes/livescript.tmLanguage.yaml \utf8
+autocompletes = fs.readJsonSync \./syntaxes/autocompletes.json
+
 snippets = fs.readJsonSync \./snippets/livescript.code-snippets
 
-generator = fs.readJsonSync \./syntaxes/generator.json
-map =
-  windowProps: []
-  windowMethods: []
-  builtInStaticProps: []
-  builtInStaticMethods: []
-  builtInProtoProps: []
-  builtInProtoMethods: []
-for k, {props, methods, prefix} of generator
-  prefix ?= k
-  if prefix is \window
-    map.windowProps = props
-    map.windowMethods = methods
-    for name in props ++ methods
-      snippets[name] =
+syntaxes = fs.readFileSync \./syntaxes/livescript.tmLanguage.yaml \utf8
+windowMethods = []
+staticMethods = {}
+protoMethods = new Set
+
+for item in autocompletes
+  if item.instance
+    methods = []
+    staticMethods[item.instance] = methods
+  for name in item.props ++ item.methods
+    isMethod = item.methods.includes name and name.0 == name.0.toLowerCase!
+    if item.proto == \window
+      key = name
+      snippet =
         scope: \livescript
         prefix: name
         body: name
-        description: k
-  else if prefix.includes \.prototype
-    if props.length
-      map.builtInProtoProps.push ...props
-    if methods.length
-      map.builtInProtoMethods.push ...methods
-    for name in props ++ methods
-      snippets".#name" =
+      if isMethod
+        windowMethods.push name
+    else if item.instance
+      key = "#{item.instance}.#name"
+      snippet =
+        scope: \livescript
+        prefix: key
+        body: key
+      if isMethod
+        methods.push name
+    else
+      key = "#{item.proto}#name"
+      snippet =
         scope: \livescript
         prefix: name
         body: name
-        description: k
-  else
-    if props.length
-      yaml = """
-        - match: (?<![."')\\]}?!])(#prefix)(\\.)(#{props.join \|})(?![\\w$])
-          captures:
-            1:
-              name: storage.type.livescript
-            2:
-              name: punctuation.accessor.livescript
-            3:
-              name: storage.type.livescript
-      """
-      yaml .= replace /^/gm "    " .trimLeft!
-      map.builtInStaticProps.push yaml
-    if methods.length
-      yaml = """
-        - match: (?<![."')\\]}?!])(#prefix)(\\.)(#{methods.join \|})(?![\\w$])
-          captures:
-            1:
-              name: storage.type.livescript
-            2:
-              name: punctuation.accessor.livescript
-            3:
-              name: entity.name.function.livescript
-      """
-      yaml .= replace /^/gm "    " .trimLeft!
-      map.builtInStaticMethods.push yaml
-    for name in props ++ methods
-      snippets"#prefix.#name" =
-        scope: \livescript
-        prefix: "#prefix.#name"
-        body: "#prefix.#name"
-        description: k
-map.windowProps = [...new Set map.windowProps]join \|
-map.windowMethods = [...new Set map.windowMethods]join \|
-map.builtInStaticProps .= join "\n    "
-map.builtInStaticMethods .= join "\n    "
-map.builtInProtoProps = [...new Set map.builtInProtoProps]join \|
-map.builtInProtoMethods = [...new Set map.builtInProtoMethods]join \|
-syntaxes .= replace /\{\{ (\w+) \}\}/gm (, name) ~>
-  map[name]
+      if isMethod
+        protoMethods.add name
+    snippets[key] ?= snippet
+
+windowMethods .= join \|
+protoMethods = Array.from protoMethods .join \|
+
+yamls = []
+for instance, methods of staticMethods
+  instance .= split \.
+  methods .= join \|
+  switch instance.length
+  case 1
+    yaml = """
+      - match: (?<![."')\\]}?!])(#{instance.0})(\\.)(#methods)(?![\\w$])
+        captures:
+          1:
+            name: storage.type.livescript
+          2:
+            name: punctuation.accessor.livescript
+          3:
+            name: entity.name.function.livescript
+    """
+  case 2
+    yaml = """
+      - match: (?<![."')\\]}?!])(#{instance.0})(\\.)(#{instance.1})(\\.)(#methods)(?![\\w$])
+        captures:
+          1:
+            name: storage.type.livescript
+          2:
+            name: punctuation.accessor.livescript
+          3:
+            patterns:
+            - include: '\#variable'
+          4:
+            name: punctuation.accessor.livescript
+          5:
+            name: entity.name.function.livescript
+    """
+  yaml .= replace /^/gm "    " .trimLeft!
+  yamls.push yaml
+staticMethods = yamls * "\n    "
+
+syntaxes .= replace /##(\w+)##/g (, name) ~>
+  eval name
 
 json = jsYaml.load syntaxes
-fs.outputJsonSync "#distPath/syntaxes/livescript.tmLanguage.json" json
-fs.outputJsonSync "#distPath/snippets/livescript.code-snippets" snippets
+fs.outputJsonSync "#dist/syntaxes/livescript.tmLanguage.json" json
+fs.outputJsonSync "#dist/snippets/livescript.code-snippets" snippets
 
 json = fs.readJsonSync \./package.json
-fs.outputJsonSync "#distPath/package.json" json
+fs.outputJsonSync "#dist/package.json" json
 
 json = fs.readJsonSync \./language-configuration.json
-fs.outputJsonSync "#distPath/language-configuration.json" json
+fs.outputJsonSync "#dist/language-configuration.json" json
 
-fs.copySync \./icon.png "#distPath/icon.png"
-fs.copySync \./sample.png "#distPath/sample.png"
-fs.copySync \./LICENSE "#distPath/LICENSE"
-fs.copySync \./README.md "#distPath/README.md"
-fs.copySync \./CHANGELOG.md "#distPath/CHANGELOG.md"
+fs.copySync \./icon.png "#dist/icon.png"
+fs.copySync \./sample.png "#dist/sample.png"
+fs.copySync \./LICENSE "#dist/LICENSE"
+fs.copySync \./README.md "#dist/README.md"
+fs.copySync \./CHANGELOG.md "#dist/CHANGELOG.md"
 
-process.chdir distPath
+process.chdir dist
 await vsce.createVSIX!

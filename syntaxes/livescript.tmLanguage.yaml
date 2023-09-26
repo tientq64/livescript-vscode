@@ -434,7 +434,7 @@ repository:
 
   window-props:
     patterns:
-    - match: (document|location|navigator|screen|history|localStorage|sessionStorage|console|process|module|livescript|stylus|m|fs|vscode|dayjs|\$|os)(?![\w$])
+    - match: (window|document|location|navigator|screen|history|localStorage|sessionStorage|console|process|module|livescript|stylus|m|fs|vscode|dayjs|\$|os)(?![\w$])
       name: storage.type.livescript
 
   window-methods:

@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.1] - 2023-09-26
+
+- Syntax highlighting: Add `window`.
+
 ## [1.1.0] - 2023-09-25
 
 - Syntax highlighting: Now all-caps variable or property names will be highlighted as constants, capitalized first letters will be highlighted as objects.
@@ -16,6 +20,6 @@
 - Add `README.md` file.
 - Add `.livescript` suffix name in syntax highlighting.
 
-## [1.0.0] - 2023-09-24Add continue when used with labels
+## [1.0.0] - 2023-09-24
 
-- Release 1.0.0.
+- Initial release.

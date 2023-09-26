@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.2.0] - 2023-09-26
+
+- Fix: Wrong folder when publishing.
+
 ## [1.1.1] - 2023-09-26
 
 - Syntax highlighting: Add `window`.

@@ -67,44 +67,51 @@ protoMethods = Array.from protoMethods .join \|
 
 yamls = []
 for instance, methods of staticMethods
-  instance .= split \.
-  methods .= join \|
-  switch instance.length
-  case 1
-    yaml = """
-      - match: (?<![."')\\]}?!])(#{instance.0})(\\.)(#methods)(?![\\w$])
-        captures:
-          1:
-            name: storage.type.livescript
-          2:
-            name: punctuation.accessor.livescript
-          3:
-            name: entity.name.function.livescript
-    """
-  case 2
-    yaml = """
-      - match: (?<![."')\\]}?!])(#{instance.0})(\\.)(#{instance.1})(\\.)(#methods)(?![\\w$])
-        captures:
-          1:
-            name: storage.type.livescript
-          2:
-            name: punctuation.accessor.livescript
-          3:
-            patterns:
-            - include: '\#variable'
-          4:
-            name: punctuation.accessor.livescript
-          5:
-            name: entity.name.function.livescript
-    """
-  yaml .= replace /^/gm "    " .trimLeft!
-  yamls.push yaml
-staticMethods = yamls * "\n    "
+  if methods.length
+    instance .= split \.
+    methods .= join \|
+    switch instance.length
+    case 1
+      yaml = """
+        - match: (?<![."')\\]}?!])(#{instance.0})(\\.)(#methods)(?![\\w$])
+          captures:
+            1:
+              name: storage.type.livescript
+            2:
+              name: punctuation.accessor.livescript
+            3:
+              name: entity.name.function.livescript
+      """
+    case 2
+      yaml = """
+        - match: (?<![."')\\]}?!])(#{instance.0})(\\.)(#{instance.1})(\\.)(#methods)(?![\\w$])
+          captures:
+            1:
+              name: storage.type.livescript
+            2:
+              name: punctuation.accessor.livescript
+            3:
+              patterns:
+              - include: '\#variable'
+            4:
+              name: punctuation.accessor.livescript
+            5:
+              name: entity.name.function.livescript
+      """
+    yaml .= replace /^/gm "    " .trimLeft!
+    yamls.push yaml
+staticMethods = yamls.join "\n    "
 
-syntaxes .= replace /##(\w+)##/g (, name) ~>
+syntaxes .= replace /{{(\w+)}}/g (, name) ~>
   eval name
 
 json = jsYaml.load syntaxes
+while /<<(\w+)>>/.test syntaxes
+  syntaxes .= replace /<<(\w+)>>/g (, name) ~>
+    json.variables[name]
+
+json = jsYaml.load syntaxes
+delete json.variables
 fs.outputJsonSync "#dist/syntaxes/livescript.tmLanguage.json" json
 fs.outputJsonSync "#dist/snippets/livescript.code-snippets" snippets
 

@@ -1,6 +1,6 @@
 {
   "name": "livescript-vscode",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "displayName": "LiveScript 2",
   "description": "Syntax highlighting, autocomplete, and snippets",
   "icon": "./icon.png",
@@ -32,6 +32,9 @@
     "snippets",
     "vscode-extension"
   ],
+  "scripts": {
+    "build-and-publish": "ls2 build.ls && cd dist && vsce publish"
+  },
   "devDependencies": {
     "fs-extra": "^11.1.1",
     "livescript2": "^1.5.0",

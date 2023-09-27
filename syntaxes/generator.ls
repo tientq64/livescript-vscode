@@ -68,9 +68,11 @@ for item in items
 
   for name, desc of descs
     if typeof desc.value == \function
-      item.methods.push name
+      unless name in <[constructor]>
+        item.methods.push name
     else
-      item.props.push name
+      unless name in <[name arguments length caller prototype]>
+        item.props.push name
 
 json = JSON.stringify items,, "  "
 preEl.textContent = json

@@ -4,5 +4,25 @@
     "prefix": "log",
     "body": "console.log $0",
     "description": "Log to the console"
+  },
+  "name": {
+    "scope": "livescript",
+    "prefix": "name",
+    "body": "name"
+  },
+  "arguments": {
+    "scope": "livescript",
+    "prefix": "arguments",
+    "body": "arguments"
+  },
+  "length": {
+    "scope": "livescript",
+    "prefix": "length",
+    "body": "length"
+  },
+  "prototype": {
+    "scope": "livescript",
+    "prefix": "prototype",
+    "body": "prototype"
   }
 }

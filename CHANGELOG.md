@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.1] - 2023-09-27
+
+- Syntax highlighting:
+  + Rewrote syntax highlighting for strings to be more concise, also added highlighting for character escape sequences.
+  + Fix: `break`, `continue` with the following keyword highlighted as label.
+  + Fix: Remove highlights of objects that do not contain any static methods.
+- Added the ability to use variables when writing syntax highlighting. Variable has the syntax &lt;&lt;name&gt;&gt;.
+
 ## [1.2.0] - 2023-09-26
 
 - Fix: Wrong folder when publishing.

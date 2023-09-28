@@ -182,6 +182,18 @@ nam3~10 = ->
 
 :build loop
   break build
+  break if
+  break if a > 0
+  break ifaa
+  break if44
+  break if$
+  break if_
+  break aaif
+  break 44if
+  break $if
+  break _if
+  break and
+  break class A
 
 obj =
   if: 4

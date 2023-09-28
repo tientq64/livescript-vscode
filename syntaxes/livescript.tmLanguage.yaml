@@ -339,13 +339,13 @@ repository:
 
   label:
     patterns:
-    - match: (:)(?!<<keywords>>)(<<ident>>)
+    - match: (:)(?!(?:<<keywords>>)(?![\w$]))(<<ident>>)
       captures:
         1:
           name: punctuation.separator.label.livescript
         2:
           name: entity.name.label.livescript
-    - match: (break|continue)\s+(?!<<keywords>>)(<<ident>>)
+    - match: (break|continue)\s+(?!(?:<<keywords>>)(?![\w$]))(<<ident>>)
       captures:
         1:
           name: keyword.control.livescript

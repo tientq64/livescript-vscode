@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.2.2] - 2023-09-28
+
+- Syntax highlighting:
+  + Fix: `break`, `continue` are not highlighted when the label name begins with a keyword.
+
 ## [1.2.1] - 2023-09-27
 
 - Syntax highlighting:

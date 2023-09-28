@@ -1,6 +1,6 @@
 {
   "name": "livescript-vscode",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "displayName": "LiveScript 2",
   "description": "Syntax highlighting, autocomplete, and snippets",
   "icon": "./icon.png",

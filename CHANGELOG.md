@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.2.3] - 2023-09-30
+
+- Syntax highlighting:
+  + Add `event`.
+
 ## [1.2.2] - 2023-09-28
 
 - Syntax highlighting:

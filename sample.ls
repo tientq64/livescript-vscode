@@ -136,21 +136,45 @@ var def = 2
 ghi = 3
 
 Math.PI
+Maths.PI
 Math.random
+Maths.random
 a.Math.PI
 a.Math.PIss
 .length
 a.length
 a.replace
 a.replacess
+a .= replace
+a ::= replace
+..replace
+a::replace
+a::~replace
+a::!replace
+a::?replace
 []replace
 ""replace
 a~replace
+a~postMessag
+a~postMessage
+@~postMessage
+a~postMessages
+a::postMessage
 a.~replace
 ""~replace
 "".~replace
 ~replace
 @replace
+@~replace
+a.10
+a~10
+a~bb10
+a~10bb
+a.~10
+a::10
+[]10
+""10
+@10
 a .= replace
 4~5
 a.120
@@ -179,7 +203,6 @@ cc ::= class 4
 "class"class 4
 nam3~10
 nam3~10 = ->
-
 :build loop
   break build
   break if

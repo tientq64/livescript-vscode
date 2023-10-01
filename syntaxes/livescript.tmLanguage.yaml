@@ -291,13 +291,15 @@ repository:
 
   proto-methods:
     patterns:
-    - match: (?:(?<=["')\]}?!]~?|[\w.]~)|(\.= *)|(\.))({{protoMethods}}|constructor)(?![\w$])
+    - match: (?:(?<=["')\]}?!\w$]|::)(~?)|(\.= *|::= *|\.\.|::)|(\.~?))({{protoMethods}}|constructor)(?![\w$])
       captures:
         1:
-          name: keyword.operator.livescript
-        2:
           name: punctuation.accessor.livescript
+        2:
+          name: keyword.operator.livescript
         3:
+          name: punctuation.accessor.livescript
+        4:
           name: entity.name.function.livescript
 
   property:
@@ -315,6 +317,7 @@ repository:
           name: keyword.operator.livescript
         2:
           patterns:
+          - include: '#number'
           - include: '#variable'
     - match: (<<ident>>)(?= *:[^:])
       name: variable.other.livescript
@@ -325,17 +328,19 @@ repository:
         2:
           patterns:
           - include: '#variable'
-    # - match: (?<=["')\]}/]|[\w$])(~)([\w$]+)
-    #   captures:
-    #     1:
-    #       name: punctuation.accessor.livescript
-    #     2:
-    #       name: variable.other.livescript
-    - match: (?<=["')\]}/]~?)[\w$]+
+    - match: (?<=[."')\]}?!]|[\w$@])(~)([\w$]+)
       captures:
-        0:
+        1:
+          name: punctuation.accessor.livescript
+        2:
           patterns:
+          - include: '#number'
           - include: '#variable'
+    # - match: (?<=["')\]}/]~?)[\w$]+
+    #   captures:
+    #     0:
+    #       patterns:
+    #       - include: '#variable'
 
   label:
     patterns:
@@ -450,7 +455,7 @@ repository:
 
   window-methods:
     patterns:
-    - match: ({{windowMethods}}|require|import)(?![\w$])
+    - match: (?<![."')\]}?!]~?|[\w.]~|\.= *)({{windowMethods}}|require|import)(?![\w$])
       name: entity.name.function.livescript
 
   punctuation:

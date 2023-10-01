@@ -73,7 +73,7 @@ for instance, methods of staticMethods
     switch instance.length
     case 1
       yaml = """
-        - match: (?<![."')\\]}?!])(#{instance.0})(\\.)(#methods)(?![\\w$])
+        - match: (?<![."')\\]}?!])(#{instance.0})(\\.~?)(#methods)(?![\\w$])
           captures:
             1:
               name: storage.type.livescript
@@ -84,7 +84,7 @@ for instance, methods of staticMethods
       """
     case 2
       yaml = """
-        - match: (?<![."')\\]}?!])(#{instance.0})(\\.)(#{instance.1})(\\.)(#methods)(?![\\w$])
+        - match: (?<![."')\\]}?!])(#{instance.0})(\\.~?)(#{instance.1})(\\.~?)(#methods)(?![\\w$])
           captures:
             1:
               name: storage.type.livescript

@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.2.4] - 2023-10-01
+
+- Syntax highlighting:
+  + Fix: Window methods are highlighted when they are properties of another object.
+  + Change: Object property access syntax with a tilde will be highlighted as dot notation.
+
 ## [1.2.3] - 2023-09-30
 
 - Syntax highlighting:

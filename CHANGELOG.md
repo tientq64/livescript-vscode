@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.2.5] - 2023-10-07
+
+- Syntax highlighting:
+  + Add: innerWidth, innerHeight.
+
 ## [1.2.4] - 2023-10-01
 
 - Syntax highlighting:

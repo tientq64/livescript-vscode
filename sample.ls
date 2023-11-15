@@ -179,10 +179,19 @@ a .= replace
 4~5
 a.120
 
+fn = (a, d) !->*
 fn = (a, [b = 9, c], d) !->*
-fn = (a, [b = 9, c] = [], d) !->
+fn = (a, [b = 9, c = 0, d, [g = k, j, r = 1], f = r, g] = [t, c], d, {h, e, h2 = 4}) !->
+  do it
 fm = (i, {j = 9, k}, l) !->
 fm = (i, {j = 9, k} = {}, l) !->
+fk = (a = 12, b = \hi, c = ddd, d = @dd, h = (t, g = [g], [g]) !~> 12, w = (s, ss), ww = ((s, ss) ~> [ss]), q = (s, ss) ~> [ss], e = [ee, 1 ff], f = e, g = !name) !->
+(s, ss) ~> [ss]
+
+function name a1, a2, a3 then
+function name a1 = a, a2, a3 = 3 then
+function name a1, a2 = ([b1, b2]), a3 then
+
 12 + 13
 if isString
   m that

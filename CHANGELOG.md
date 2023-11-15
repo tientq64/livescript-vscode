@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.3.0] - 2023-11-15
+- Syntax highlighting:
+  + Add syntax highlighting for function parameters. But there is still an error between the brackets and the arrow function.
+
 ## [1.2.5] - 2023-10-07
 
 - Syntax highlighting:

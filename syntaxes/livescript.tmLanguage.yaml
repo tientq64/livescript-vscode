@@ -17,6 +17,8 @@ repository:
     - include: '#string-double'
     - include: '#string-backslash'
     - include: '#list-words'
+    - include: '#array-assign'
+    - include: '#object-assign'
     - include: '#embed-backtick'
     - include: '#comment-line'
     - include: '#comment-block'
@@ -133,6 +135,26 @@ repository:
       name: string.quoted.other.livescript
       patterns:
       - include: '#string-escape'
+
+  array-assign:
+    patterns:
+    - begin: (?<==\s*)\[
+      end: \]
+      captures:
+        0:
+          name: punctuation.livescript
+      patterns:
+      - include: '#expr'
+
+  object-assign:
+    patterns:
+    - begin: (?<==\s*)\{
+      end: \}
+      captures:
+        0:
+          name: punctuation.livescript
+      patterns:
+      - include: '#expr'
 
   embed-backtick:
     patterns:
@@ -270,11 +292,49 @@ repository:
           name: punctuation.definition.parameters.begin.livescript
         6:
           patterns:
-          - include: '#expr'
+          - include: '#function-arrow-parameters'
         7:
           name: punctuation.definition.parameters.end.livescript
         8:
           name: keyword.other.livescript
+
+  function-arrow-parameters:
+    patterns:
+    - match: (?<=\(\s*)<<ident>>
+      name: variable.parameter.livescript
+    - include: '#parameters'
+
+  parameters:
+    patterns:
+    - match: (?<=(?:[(,]|\.\.\.)\s*)<<ident>>
+      name: variable.parameter.livescript
+    - include: '#parameter-destruct-array'
+    - include: '#parameter-destruct-object'
+    - include: '#expr'
+
+  parameter-destruct-array:
+    patterns:
+    - begin: (?<!=\s*)\[
+      end: \]
+      captures:
+        0:
+          name: punctuation.livescript
+      patterns:
+      - match: (?<=[\[,]\s*)<<ident>>
+        name: variable.parameter.livescript
+      - include: '#expr'
+
+  parameter-destruct-object:
+    patterns:
+    - begin: (?<!=\s*)\{
+      end: \}
+      captures:
+        0:
+          name: punctuation.livescript
+      patterns:
+      - match: (?<=[{,]\s*)<<ident>>
+        name: variable.parameter.livescript
+      - include: '#expr'
 
   number:
     patterns:
@@ -366,7 +426,7 @@ repository:
 
   function-named:
     patterns:
-    - match: (!)?(function) +(<<ident>>)
+    - match: '(!)?(function) +(<<ident>>)(?: +(<<ident>>)?(.+))?'
       captures:
         1:
           name: keyword.control.livescript
@@ -374,6 +434,15 @@ repository:
           name: keyword.control.livescript
         3:
           name: entity.name.function.livescript
+        4:
+          name: variable.parameter.livescript
+        5:
+          patterns:
+          - include: '#function-named-parameters'
+
+  function-named-parameters:
+    patterns:
+    - include: '#parameters'
 
   class:
     patterns:

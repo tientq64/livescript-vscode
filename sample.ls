@@ -189,8 +189,9 @@ fk = (a = 12, b = \hi, c = ddd, d = @dd, h = (t, g = [g], [g]) !~> 12, w = (s, s
 (s, ss) ~> [ss]
 
 function name a1, a2, a3 then
-function name a1 = a, a2, a3 = 3 then
+function name a1 = a, a2, a3 = 3 =>
 function name a1, a2 = ([b1, b2]), a3 then
+function name a123
 
 12 + 13
 if isString
@@ -209,6 +210,10 @@ cc~class 4
 cc::class 4
 cc .= class 4
 cc ::= class 4
+cc?class
+cc!class
+cc[0]class
+cc()class
 "class"class 4
 nam3~10
 nam3~10 = ->

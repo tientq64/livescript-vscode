@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.3.1] - 2023-11-16
+
+- Syntax highlighting:
+  + Fix named function parameters.
+  + Fix properties with names similar to keywords.
+
 ## [1.3.0] - 2023-11-15
 - Syntax highlighting:
   + Add syntax highlighting for function parameters. But there is still an error between the brackets and the arrow function.

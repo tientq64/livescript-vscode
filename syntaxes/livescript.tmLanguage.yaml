@@ -426,7 +426,7 @@ repository:
 
   function-named:
     patterns:
-    - match: '(!)?(function) +(<<ident>>)(?: +(<<ident>>)?(.+))?'
+    - match: '(!)?(function) +(<<ident>>)(?: +(?:(<<ident>>+)|(.+)))?'
       captures:
         1:
           name: keyword.control.livescript
@@ -514,7 +514,7 @@ repository:
 
   keyword:
     patterns:
-    - match: (<<keywords>>)(?![\w$])
+    - match: (?<![."')\]}?!])(<<keywords>>)(?![\w$])
       name: keyword.control.livescript
 
   window-props:

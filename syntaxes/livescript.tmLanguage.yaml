@@ -306,8 +306,14 @@ repository:
 
   parameters:
     patterns:
-    - match: (?<=(?:[(,]|\.\.\.)\s*)<<ident>>
-      name: variable.parameter.livescript
+    - match: (?<=[(,]\s*(--?|\+\+?|(?:\^\^|[!~])+)?|\.\.\.)(@*)(<<ident>>)
+      captures:
+        1:
+          name: keyword.operator.livescript
+        2:
+          name: storage.type.livescript
+        3:
+          name: variable.parameter.livescript
     - include: '#parameter-destruct-array'
     - include: '#parameter-destruct-object'
     - include: '#expr'
@@ -351,7 +357,7 @@ repository:
 
   proto-methods:
     patterns:
-    - match: (?:(?<=["')\]}?!\w$]|::)(~?)|(\.= *|::= *|\.\.|::)|(\.~?))({{protoMethods}}|constructor)(?![\w$])
+    - match: (?:(?<=["')\]}?\w$]!*|::)(~?)|(\.= *|::= *|\.\.|::)|(\.~?))({{protoMethods}}|constructor)(?![\w$])
       captures:
         1:
           name: punctuation.accessor.livescript
@@ -388,7 +394,7 @@ repository:
         2:
           patterns:
           - include: '#variable'
-    - match: (?<=[."')\]}?!]|[\w$@])(~)([\w$]+)
+    - match: (?<=[."')\]}?]|["')\]}?\w$]!)(~)([\w$]+)
       captures:
         1:
           name: punctuation.accessor.livescript
@@ -514,7 +520,7 @@ repository:
 
   keyword:
     patterns:
-    - match: (?<![."')\]}?!])(<<keywords>>)(?![\w$])
+    - match: (?<![."')\]}?]|["')\]}?\w$]!)(<<keywords>>)(?![\w$])
       name: keyword.control.livescript
 
   window-props:
@@ -524,7 +530,7 @@ repository:
 
   window-methods:
     patterns:
-    - match: (?<![."')\]}?!]~?|[\w.]~|\.= *)({{windowMethods}}|require|import)(?![\w$])
+    - match: (?<![."')\]}?]~?|["')\]}?\w$]!|[\w.]~|\.= *)({{windowMethods}}|require|import)(?![\w$])
       name: entity.name.function.livescript
 
   punctuation:

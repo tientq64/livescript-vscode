@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.3.2] - 2023-11-28
+
+- Syntax highlighting:
+  + Fixed: [Issue #2](https://github.com/tientq64/livescript-vscode/issues/2)
+
 ## [1.3.1] - 2023-11-16
 
 - Syntax highlighting:

@@ -247,7 +247,28 @@ else 25.4
 if a > 10 => yes else no
 
 await add "sao: #@ok-baby.interp.er%" 51
+
 a in b
+a !in b
+!if a > 0 => 1
+!require
+a!require
+a!!require
+!split
+a!split
+a!!split
+""!split
+a.split
+a!~split
+require
+.require
+..require
+...require
+a .= split
+
+(!bool, +num, arr, @ref, tmp = +ok - +mk * @hi, it.at, it.ch, ...rest, ^^name) ~>
+(@user) ->
+
 num = -45n + 10nas + 2n23
 hex = -0x4fn / 42~12
 base = 30~gJ

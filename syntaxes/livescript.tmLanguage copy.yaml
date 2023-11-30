@@ -278,7 +278,7 @@ repository:
 
   function-arrow:
     patterns:
-    - match: (?:(?:([.~]?)([\w$]+)|(<<ident>>))\s*(:=|[:=]))?\s*(?:(\()(.+)(\)))?\s*(!?(?:~~?|--?)>>?\*?)
+    - match: (?:(?:([.~]?)([\w$]+)|(<<ident>>))\s*(:=|[:=]))?\s*(?:(\()(.+)(\)))?\s*(!?[-~]>>?\*?)
       captures:
         1:
           name: punctuation.accessor.livescript
@@ -300,13 +300,13 @@ repository:
 
   function-arrow-parameters:
     patterns:
-    # - match: (?<=\(\s*)<<ident>>
-    #   name: variable.parameter.livescript
+    - match: (?<=\(\s*)<<ident>>
+      name: variable.parameter.livescript
     - include: '#parameters'
 
   parameters:
     patterns:
-    - match: (?<=[(,])\s*(--?|\+\+?|\^\^+|!+|~+|\.\.\.)?(@?)(<<ident>>)(?![."'\[{:\w$])
+    - match: (?<=[(,]\s*(--?|\+\+?|\^\^+|!+|~+|\.\.\.)?)(@*)(<<ident>>)
       captures:
         1:
           name: keyword.operator.livescript
@@ -320,7 +320,7 @@ repository:
 
   parameter-destruct-array:
     patterns:
-    - begin: (?<!=\s*|[\w$])\[
+    - begin: (?<!=\s*)\[
       end: \]
       captures:
         0:
@@ -332,19 +332,13 @@ repository:
 
   parameter-destruct-object:
     patterns:
-    - begin: (?<!=\s*|[\w$])\{
+    - begin: (?<!=\s*)\{
       end: \}
       captures:
         0:
           name: punctuation.livescript
       patterns:
-      - match: (:)\s*(<<ident>>)(?!:)
-        captures:
-          1:
-            name: punctuation.separator.livescript
-          2:
-            name: variable.parameter.livescript
-      - match: (?<=[{,]\s*)<<ident>>(?!:)
+      - match: (?<=[{,]\s*)<<ident>>
         name: variable.parameter.livescript
       - include: '#expr'
 
@@ -400,7 +394,7 @@ repository:
         2:
           patterns:
           - include: '#variable'
-    - match: (?<=[."')\]}?!]|[\w$@])(~)([\w$]+)
+    - match: (?<=[."')\]}?]|["')\]}?\w$]!)(~)([\w$]+)
       captures:
         1:
           name: punctuation.accessor.livescript
@@ -438,25 +432,17 @@ repository:
 
   function-named:
     patterns:
-    - match: '(!)?(function)(\*?) +(<<ident>>)(\*?)(?: +(?:(--?|\+\+?|\^\^+|!+|~+|\.\.\.)?(@?)(<<ident>>)(?![."''\[{:\w$]))?(.*))?'
+    - match: '(!)?(function) +(<<ident>>)(?: +(?:(<<ident>>+)|(.+)))?'
       captures:
         1:
           name: keyword.control.livescript
         2:
           name: keyword.control.livescript
         3:
-          name: keyword.control.livescript
-        4:
           name: entity.name.function.livescript
-        5:
-          name: keyword.control.livescript
-        6:
-          name: keyword.operator.livescript
-        7:
-          name: storage.type.livescript
-        8:
+        4:
           name: variable.parameter.livescript
-        9:
+        5:
           patterns:
           - include: '#function-named-parameters'
 

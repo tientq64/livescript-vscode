@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.3.3] - 2023-11-30
+
+- Fix some syntax highlighting.
+
 ## [1.3.2] - 2023-11-28
 
 - Syntax highlighting:

@@ -108,7 +108,7 @@ syntaxes .= replace /{{(\w+)}}/g (, name) ~>
 json = jsYaml.load syntaxes
 while /<<(\w+)>>/.test syntaxes
   syntaxes .= replace /<<(\w+)>>/g (, name) ~>
-    json.variables[name]
+    json.variables[name].replace /'/g \''
 
 json = jsYaml.load syntaxes
 delete json.variables
@@ -126,6 +126,12 @@ fs.copySync \./sample.png "#dist/sample.png"
 fs.copySync \./LICENSE "#dist/LICENSE"
 fs.copySync \./README.md "#dist/README.md"
 fs.copySync \./CHANGELOG.md "#dist/CHANGELOG.md"
+
+pack = require \./package.json
+extsDir = "C:/Users/QUANGTIEN/.vscode/extensions"
+extDir = "#extsDir/tientq64.livescript-vscode-#{pack.version}"
+fs.emptyDirSync extDir
+fs.copySync dist, extDir
 
 process.chdir dist
 await vsce.createVSIX!

@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.3.4] - 2023-12-07
+
+- Syntax highlighting:
+  + Added syntax highlighting for colons in object, escaped characters in regexp.
+
 ## [1.3.3] - 2023-11-30
 
 - Fix some syntax highlighting.
@@ -54,12 +59,14 @@
 
 ## [1.1.1] - 2023-09-26
 
-- Syntax highlighting: Add `window`.
+- Syntax highlighting:
+  + Add `window`.
 
 ## [1.1.0] - 2023-09-25
 
-- Syntax highlighting: Now all-caps variable or property names will be highlighted as constants, capitalized first letters will be highlighted as objects.
-- Syntax highlighting: Add `continue` when used with label.
+- Syntax highlighting:
+  + Now all-caps variable or property names will be highlighted as constants, capitalized first letters will be highlighted as objects.
+  + Add `continue` when used with label.
 - Add more autocomplete.
 
 ## [1.0.2] - 2023-09-24

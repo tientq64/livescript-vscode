@@ -190,38 +190,49 @@ repository:
 
   heregex-content:
     patterns:
-    - match: \\.
+    - match: (\\k<)(\w+)(>)
+      captures:
+        1:
+          name: constant.character.escape.livescript
+        2:
+          name: constant.other.character-class.regexp.livescript
+        3:
+          name: constant.character.escape.livescript
+    - match: \\[pP]\{[A-Za-z_]+(?:=\w+)?\}
       name: constant.character.escape.livescript
+    - include: '#he-regexp-char-escape'
     - match: \.
       name: constant.other.livescript
-    - match: '[+*?^$]'
+    - match: '[+*?^$|]'
       name: keyword.other.livescript
     - match: '\{(\d+,\d+|\d+,|,\d+|\d+)\}'
       name: keyword.other.livescript
-    - match: ' #.*'
-      name: comment.line.number-sign.livescript
     - begin: (\[)(\^)?-?
       end: -?(\])
       beginCaptures:
         1:
-          name: keyword.other.livescript
+          name: punctuation.definition.group.regexp.livescript
         2:
           name: keyword.other.livescript
       endCaptures:
         1:
-          name: keyword.other.livescript
+          name: punctuation.definition.group.regexp.livescript
       patterns:
-      - match: \\.
-        name: constant.character.escape.livescript
+      - include: '#he-regexp-char-escape'
       - match: \-
         name: keyword.operator.livescript
-    - begin: \((\?(<?[=!]|:))?
+      - include: '#heregex-interpolate-and-comment'
+    - begin: \((\?(<?[=!]|:|<<<ident>>>))?
       end: \)
       captures:
         0:
-          name: keyword.other.livescript
+          name: punctuation.definition.group.regexp.livescript
       patterns:
       - include: '#heregex-content'
+    - include: '#heregex-interpolate-and-comment'
+
+  heregex-interpolate-and-comment:
+    patterns:
     - begin: \#{
       end: \}
       captures:
@@ -231,6 +242,8 @@ repository:
       - include: '#expr'
     - match: \#(?:@?<<ident>>|@)
       name: variable.parameter.livescript
+    - match: '(?<=^|\s)#.*'
+      name: comment.line.number-sign.livescript
 
   regexp:
     patterns:
@@ -245,8 +258,7 @@ repository:
 
   regexp-content:
     patterns:
-    - match: \\.
-      name: constant.character.escape.livescript
+    - include: '#he-regexp-char-escape'
     - match: \.
       name: constant.other.livescript
     - match: '[+*?^$]'
@@ -264,8 +276,7 @@ repository:
         1:
           name: keyword.other.livescript
       patterns:
-      - match: \\.
-        name: constant.character.escape.livescript
+      - include: '#he-regexp-char-escape'
       - match: \-
         name: keyword.operator.livescript
     - begin: \((\?(<?[=!]|:))?
@@ -276,9 +287,22 @@ repository:
       patterns:
       - include: '#regexp-content'
 
+  he-regexp-char-escape:
+    patterns:
+    - match: \\u\{[\da-fA-F]{1,6}\}
+      name: constant.character.escape.livescript
+    - match: \\u[\da-fA-F]{4}
+      name: constant.character.escape.livescript
+    - match: \\x[\da-fA-F]{2}
+      name: constant.character.escape.livescript
+    - match: \\c[a-zA-Z]
+      name: constant.character.escape.livescript
+    - match: \\.
+      name: constant.character.escape.livescript
+
   function-arrow:
     patterns:
-    - match: (?:(?:([.~]?)([\w$]+)|(<<ident>>))\s*(:=|[:=]))?\s*(?:(\()(.+)(\)))?\s*(!?(?:~~?|--?)>>?\*?)
+    - match: (?:(?:([.~]?)([\w$]+)|(<<ident>>))\s*(?:(:?=)|(:)))?\s*(?:(\()(.+)(\)))?\s*(!?(?:~~?|--?)>>?\*?)
       captures:
         1:
           name: punctuation.accessor.livescript
@@ -289,13 +313,15 @@ repository:
         4:
           name: keyword.operator.livescript
         5:
-          name: punctuation.definition.parameters.begin.livescript
+          name: punctuation.separator.livescript
         6:
+          name: punctuation.definition.parameters.begin.livescript
+        7:
           patterns:
           - include: '#function-arrow-parameters'
-        7:
-          name: punctuation.definition.parameters.end.livescript
         8:
+          name: punctuation.definition.parameters.end.livescript
+        9:
           name: keyword.other.livescript
 
   function-arrow-parameters:
@@ -555,6 +581,8 @@ repository:
       name: punctuation.separator.comma.livescript
     - match: \;
       name: punctuation.terminator.statement.livescript
+    - match: ':'
+      name: punctuation.separator.colon.livescript
 
   variable:
     patterns:

@@ -1,9 +1,15 @@
 # Changelog
 
+## [1.3.5] - 2023-12-12
+
+- Syntax highlighting:
+  + Added syntax highlighting for escaped characters in regexp.
+  + Changed some regexp and heregex syntax highlighting.
+
 ## [1.3.4] - 2023-12-07
 
 - Syntax highlighting:
-  + Added syntax highlighting for colons in object, escaped characters in regexp.
+  + Added syntax highlighting for colons in object, escaped characters in heregex.
 
 ## [1.3.3] - 2023-11-30
 

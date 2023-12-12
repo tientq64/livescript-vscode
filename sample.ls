@@ -3,7 +3,7 @@ description = "Toi la #name. Xin #{Date.now! + "haha" + nots % 4} chao #@hi #@44
 age /= -26.3e-5 + (\)hihi)
 
 if a / 56 => ccc * (4 + 5)
-else /^[^^a-z\]\S/sim$+\t\\ok]+?sd{,12}.(ed[s-x-])\+(?<!\/\t)\b\d*$/gmgstest name
+else /^[^^a-z\]\S/sim$+\t\\ok]+?sd{,12}.(ed[-s-x-])\+(?<!\/\t)\b\d*$/gmgstest name
 
 func = ->
    'sos'
@@ -324,6 +324,7 @@ a.map (v /) .join \%
    \k<key>bb
    \p{L} \P{L}
    \cJK\xa01a\u{4f0}p
+   [\p{L}sd]
    mo[am]   \
    Zasxx # @saw41name ero #zwe \tname # sdd #erer #)9
    @a #@regex as

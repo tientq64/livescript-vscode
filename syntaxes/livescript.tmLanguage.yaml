@@ -190,39 +190,24 @@ repository:
 
   heregex-content:
     patterns:
-    - match: (\\k<)(\w+)(>)
-      captures:
-        1:
-          name: constant.character.escape.livescript
-        2:
-          name: constant.other.character-class.regexp.livescript
-        3:
-          name: constant.character.escape.livescript
-    - match: \\[pP]\{[A-Za-z_]+(?:=\w+)?\}
-      name: constant.character.escape.livescript
     - include: '#he-regexp-char-escape'
-    - match: \.
-      name: constant.other.livescript
-    - match: '[+*?^$|]'
-      name: keyword.other.livescript
-    - match: '\{(\d+,\d+|\d+,|,\d+|\d+)\}'
-      name: keyword.other.livescript
+    - include: '#he-regexp-content'
     - begin: (\[)(\^)?-?
       end: -?(\])
       beginCaptures:
         1:
-          name: punctuation.definition.group.regexp.livescript
+          name: punctuation.definition.character-class.regexp.livescript
         2:
           name: keyword.other.livescript
       endCaptures:
         1:
-          name: punctuation.definition.group.regexp.livescript
+          name: punctuation.definition.character-class.regexp.livescript
       patterns:
       - include: '#he-regexp-char-escape'
       - match: \-
         name: keyword.operator.livescript
       - include: '#heregex-interpolate-and-comment'
-    - begin: \((\?(<?[=!]|:|<<<ident>>>))?
+    - begin: \((?:\?(?:<?[=!]|:|<<<ident>>>))?
       end: \)
       captures:
         0:
@@ -259,36 +244,33 @@ repository:
   regexp-content:
     patterns:
     - include: '#he-regexp-char-escape'
-    - match: \.
-      name: constant.other.livescript
-    - match: '[+*?^$]'
-      name: keyword.other.livescript
-    - match: '\{(\d+,\d+|\d+,|,\d+|\d+)\}'
-      name: keyword.other.livescript
+    - include: '#he-regexp-content'
     - begin: (\[)(\^)?-?
       end: -?(\])|$
       beginCaptures:
         1:
-          name: keyword.other.livescript
+          name: punctuation.definition.character-class.regexp.livescript
         2:
           name: keyword.other.livescript
       endCaptures:
         1:
-          name: keyword.other.livescript
+          name: punctuation.definition.character-class.regexp.livescript
       patterns:
       - include: '#he-regexp-char-escape'
       - match: \-
         name: keyword.operator.livescript
-    - begin: \((\?(<?[=!]|:))?
-      end: \)|$
+    - begin: \((?:\?(?:<?[=!]|:|<<<ident>>>))?
+      end: \)
       captures:
         0:
-          name: keyword.other.livescript
+          name: punctuation.definition.group.regexp.livescript
       patterns:
       - include: '#regexp-content'
 
   he-regexp-char-escape:
     patterns:
+    - match: \\[pP]\{[A-Za-z_]+(?:=\w+)?\}
+      name: constant.character.escape.livescript
     - match: \\u\{[\da-fA-F]{1,6}\}
       name: constant.character.escape.livescript
     - match: \\u[\da-fA-F]{4}
@@ -299,6 +281,23 @@ repository:
       name: constant.character.escape.livescript
     - match: \\.
       name: constant.character.escape.livescript
+
+  he-regexp-content:
+    patterns:
+    - match: (\\k<)(\w+)(>)
+      captures:
+        1:
+          name: constant.character.escape.livescript
+        2:
+          name: constant.other.character-class.regexp.livescript
+        3:
+          name: constant.character.escape.livescript
+    - match: \.
+      name: constant.character-class.regexp.livescript
+    - match: '[+*?^$|]'
+      name: keyword.other.livescript
+    - match: '\{(\d+,\d+|\d+,|,\d+|\d+)\}'
+      name: keyword.other.livescript
 
   function-arrow:
     patterns:

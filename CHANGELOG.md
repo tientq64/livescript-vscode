@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.3.7] - 2023-12-19
+
+- Syntax highlighting:
+  + Fix bigint syntax when accessing properties without dots. For example: `4nvalueOf`.
+
 ## [1.3.6] - 2023-12-19
 
 - Syntax highlighting:

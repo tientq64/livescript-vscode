@@ -1,11 +1,11 @@
 process.chdir __dirname
 
 require! {
-  "fs-extra": fs
-  "livescript2": livescript
-  terser
-  \js-yaml
-  \@vscode/vsce
+   "fs-extra": fs
+   "livescript2": livescript
+   terser
+   \js-yaml
+   \@vscode/vsce
 }
 
 const dist = \./dist
@@ -31,84 +31,84 @@ staticMethods = {}
 protoMethods = new Set
 
 for item in autocompletes
-  if item.instance
-    methods = []
-    staticMethods[item.instance] = methods
-  for name in item.props ++ item.methods
-    isMethod = item.methods.includes name and name.0 == name.0.toLowerCase!
-    if item.proto == \window
-      key = name
-      snippet =
-        scope: \livescript
-        prefix: name
-        body: name
-      if isMethod
-        windowMethods.push name
-    else if item.instance
-      key = "#{item.instance}.#name"
-      snippet =
-        scope: \livescript
-        prefix: key
-        body: key
-      if isMethod
-        methods.push name
-    else
-      key = "#{item.proto}#name"
-      snippet =
-        scope: \livescript
-        prefix: name
-        body: name
-      if isMethod
-        protoMethods.add name
-    snippets[key] ?= snippet
+   if item.instance
+      methods = []
+      staticMethods[item.instance] = methods
+   for name in item.props ++ item.methods
+      isMethod = item.methods.includes name and name.0 == name.0.toLowerCase!
+      if item.proto == \window
+         key = name
+         snippet =
+            scope: \livescript
+            prefix: name
+            body: name
+         if isMethod
+            windowMethods.push name
+      else if item.instance
+         key = "#{item.instance}.#name"
+         snippet =
+            scope: \livescript
+            prefix: key
+            body: key
+         if isMethod
+            methods.push name
+      else
+         key = "#{item.proto}#name"
+         snippet =
+            scope: \livescript
+            prefix: name
+            body: name
+         if isMethod
+            protoMethods.add name
+      snippets[key] ?= snippet
 
 windowMethods .= join \|
 protoMethods = Array.from protoMethods .join \|
 
 yamls = []
 for instance, methods of staticMethods
-  if methods.length
-    instance .= split \.
-    methods .= join \|
-    switch instance.length
-    case 1
-      yaml = """
-        - match: (?<![."')\\]}?!])(#{instance.0})(\\.~?)(#methods)(?![\\w$])
-          captures:
-            1:
-              name: storage.type.livescript
-            2:
-              name: punctuation.accessor.livescript
-            3:
-              name: entity.name.function.livescript
-      """
-    case 2
-      yaml = """
-        - match: (?<![."')\\]}?!])(#{instance.0})(\\.~?)(#{instance.1})(\\.~?)(#methods)(?![\\w$])
-          captures:
-            1:
-              name: storage.type.livescript
-            2:
-              name: punctuation.accessor.livescript
-            3:
-              patterns:
-              - include: '\#variable'
-            4:
-              name: punctuation.accessor.livescript
-            5:
-              name: entity.name.function.livescript
-      """
-    yaml .= replace /^/gm "    " .trimLeft!
-    yamls.push yaml
-staticMethods = yamls.join "\n    "
+   if methods.length
+      instance .= split \.
+      methods .= join \|
+      switch instance.length
+      case 1
+         yaml = """
+            -  match: (?<![."')\\]}?!])(#{instance.0})(\\.~?)(#methods)(?![\\w$])
+               captures:
+                  1:
+                     name: storage.type.livescript
+                  2:
+                     name: punctuation.accessor.livescript
+                  3:
+                     name: entity.name.function.livescript
+         """
+      case 2
+         yaml = """
+            -  match: (?<![."')\\]}?!])(#{instance.0})(\\.~?)(#{instance.1})(\\.~?)(#methods)(?![\\w$])
+               captures:
+                  1:
+                     name: storage.type.livescript
+                  2:
+                     name: punctuation.accessor.livescript
+                  3:
+                     patterns:
+                     - include: '\#variable'
+                  4:
+                     name: punctuation.accessor.livescript
+                  5:
+                     name: entity.name.function.livescript
+         """
+      yaml .= replace /^/gm "      " .trimLeft!
+      yamls.push yaml
+staticMethods = yamls.join "\n      "
 
 syntaxes .= replace /{{(\w+)}}/g (, name) ~>
-  eval name
+   eval name
 
 json = jsYaml.load syntaxes
 while /<<(\w+)>>/.test syntaxes
-  syntaxes .= replace /<<(\w+)>>/g (, name) ~>
-    json.variables[name].replace /'/g \''
+   syntaxes .= replace /<<(\w+)>>/g (, name) ~>
+      json.variables[name].replace /'/g \''
 
 json = jsYaml.load syntaxes
 delete json.variables

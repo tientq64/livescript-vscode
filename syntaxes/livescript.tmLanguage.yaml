@@ -1,599 +1,607 @@
 scopeName: source.livescript
 
 variables:
-  ident: '[a-zA-Z_$][\w$]*'
-  constants: 'yes|no|true|false|on|off|void|null|undefined|NaN|Infinity'
-  keywords: 'if|unless|then|else|switch|match|case|default|otherwise|fallthrough|for|own|ever|from|to|til|by|when|while|until|loop|in|of|let|do|var|const|break|continue|return|yield|await|try|catch|finally|throw|new|with|debugger|function|class|extends|implements'
+   ident: '[a-zA-Z_$][\w$]*'
+   constants: 'yes|no|true|false|on|off|void|null|undefined|NaN|Infinity'
+   keywords: 'if|unless|then|else|switch|match|case|default|otherwise|fallthrough|for|own|ever|from|to|til|by|when|while|until|loop|in|of|let|do|var|const|break|continue|return|yield|await|try|catch|finally|throw|new|with|debugger|function|class|extends|implements'
 
 patterns:
-- include: '#expr'
+-  include: '#expr'
 
 repository:
-  expr:
-    patterns:
-    - include: '#string-triple-single'
-    - include: '#string-triple-double'
-    - include: '#string-single'
-    - include: '#string-double'
-    - include: '#string-backslash'
-    - include: '#list-words'
-    - include: '#array-assign'
-    - include: '#object-assign'
-    - include: '#embed-backtick'
-    - include: '#comment-line'
-    - include: '#comment-block'
-    - include: '#heregex'
-    - include: '#regexp'
-    - include: '#function-arrow'
-    - include: '#number'
-    - include: '#static-methods'
-    - include: '#proto-methods'
-    - include: '#property'
-    - include: '#label'
-    - include: '#operator'
-    - include: '#function-named'
-    - include: '#class'
-    - include: '#declare'
-    - include: '#storage'
-    - include: '#constant'
-    - include: '#keyword'
-    - include: '#window-props'
-    - include: '#window-methods'
-    - include: '#punctuation'
-    - include: '#variable'
-
-  string-triple-single:
-    patterns:
-    - begin: \'''
-      end: \'''
-      captures:
-        0:
-          name: punctuation.livescript
-      name: string.quoted.single.livescript
+   expr:
       patterns:
-      - include: '#string-escape'
+      -  include: '#string-triple-single'
+      -  include: '#string-triple-double'
+      -  include: '#string-single'
+      -  include: '#string-double'
+      -  include: '#string-backslash'
+      -  include: '#list-words'
+      -  include: '#array-assign'
+      -  include: '#object-assign'
+      -  include: '#embed-backtick'
+      -  include: '#comment-line'
+      -  include: '#comment-block'
+      -  include: '#heregex'
+      -  include: '#regexp'
+      -  include: '#function-arrow'
+      -  include: '#number'
+      -  include: '#static-methods'
+      -  include: '#proto-methods'
+      -  include: '#property'
+      -  include: '#label'
+      -  include: '#operator'
+      -  include: '#function-named'
+      -  include: '#class'
+      -  include: '#declare'
+      -  include: '#storage'
+      -  include: '#constant'
+      -  include: '#keyword'
+      -  include: '#bigint'
+      -  include: '#window-props'
+      -  include: '#window-methods'
+      -  include: '#punctuation'
+      -  include: '#variable'
 
-  string-triple-double:
-    patterns:
-    - begin: \"""
-      end: \"""
-      captures:
-        0:
-          name: punctuation.livescript
-      name: string.quoted.double.livescript
+   string-triple-single:
       patterns:
-      - include: '#string-escape'
-      - include: '#string-interpolate'
+      -  begin: \'''
+         end: \'''
+         captures:
+            0:
+               name: punctuation.livescript
+         name: string.quoted.single.livescript
+         patterns:
+         -  include: '#string-escape'
 
-  string-single:
-    patterns:
-    - begin: \'
-      end: \'
-      captures:
-        0:
-          name: punctuation.livescript
-      name: string.quoted.single.livescript
+   string-triple-double:
       patterns:
-      - include: '#string-escape'
+      -  begin: \"""
+         end: \"""
+         captures:
+            0:
+               name: punctuation.livescript
+         name: string.quoted.double.livescript
+         patterns:
+         -  include: '#string-escape'
+         -  include: '#string-interpolate'
 
-  string-double:
-    patterns:
-    - begin: \"
-      end: \"
-      captures:
-        0:
-          name: punctuation.livescript
-      name: string.quoted.double.livescript
+   string-single:
       patterns:
-      - include: '#string-escape'
-      - include: '#string-interpolate'
+      -  begin: \'
+         end: \'
+         captures:
+            0:
+               name: punctuation.livescript
+         name: string.quoted.single.livescript
+         patterns:
+         -  include: '#string-escape'
 
-  string-backslash:
-    patterns:
-    - match: (\\)(\S[^,;)\]}\s]*)
-      name: string.other.livescript
-      captures:
-        1:
-          name: punctuation.livescript
-        2:
-          patterns:
-          - include: '#string-escape'
-          - match: \\$
-            name: constant.character.escape.livescript
-
-  string-escape:
-    patterns:
-    - match: \\u\{(?:10[\da-fA-F]{4}|[\da-fA-F]{1,5})\}
-      name: constant.character.escape.livescript
-    - match: \\u[\da-fA-F]{4}
-      name: constant.character.escape.livescript
-    - match: \\x[\da-fA-F]{2}
-      name: constant.character.escape.livescript
-    - match: \\.
-      name: constant.character.escape.livescript
-
-  string-interpolate:
-    patterns:
-    - begin: \#{
-      end: \}
-      captures:
-        0:
-          name: variable.parameter.livescript
+   string-double:
       patterns:
-      - include: '#expr'
-    - match: \#(?:@?<<ident>>|@\d*)
-      name: variable.parameter.livescript
+      -  begin: \"
+         end: \"
+         captures:
+            0:
+               name: punctuation.livescript
+         name: string.quoted.double.livescript
+         patterns:
+         -  include: '#string-escape'
+         -  include: '#string-interpolate'
 
-  list-words:
-    patterns:
-    - begin: <\[
-      end: \]>
-      captures:
-        0:
-          name: punctuation.livescript
-          # name: keyword.other.livescript
-      name: string.quoted.other.livescript
+   string-backslash:
       patterns:
-      - include: '#string-escape'
+      -  match: (\\)(\S[^,;)\]}\s]*)
+         name: string.other.livescript
+         captures:
+            1:
+               name: punctuation.livescript
+            2:
+               patterns:
+               -  include: '#string-escape'
+               -  match: \\$
+                  name: constant.character.escape.livescript
 
-  array-assign:
-    patterns:
-    - begin: (?<==\s*)\[
-      end: \]
-      captures:
-        0:
-          name: punctuation.livescript
+   string-escape:
       patterns:
-      - include: '#expr'
+      -  match: \\u\{(?:10[\da-fA-F]{4}|[\da-fA-F]{1,5})\}
+         name: constant.character.escape.livescript
+      -  match: \\u[\da-fA-F]{4}
+         name: constant.character.escape.livescript
+      -  match: \\x[\da-fA-F]{2}
+         name: constant.character.escape.livescript
+      -  match: \\.
+         name: constant.character.escape.livescript
 
-  object-assign:
-    patterns:
-    - begin: (?<==\s*)\{
-      end: \}
-      captures:
-        0:
-          name: punctuation.livescript
+   string-interpolate:
       patterns:
-      - include: '#expr'
+      -  begin: \#{
+         end: \}
+         captures:
+            0:
+               name: variable.parameter.livescript
+         patterns:
+         -  include: '#expr'
+      -  match: \#(?:@?<<ident>>|@\d*)
+         name: variable.parameter.livescript
 
-  embed-backtick:
-    patterns:
-    - begin: \``
-      end: \``
-      captures:
-        0:
-          name: punctuation.livescript
+   list-words:
       patterns:
-      - include: source.js
+      -  begin: <\[
+         end: \]>
+         captures:
+            0:
+               name: punctuation.livescript
+               # name: keyword.other.livescript
+         name: string.quoted.other.livescript
+         patterns:
+         -  include: '#string-escape'
 
-  comment-line:
-    patterns:
-    - match: \#.*
-      name: comment.line.number-sign.livescript
-
-  comment-block:
-    patterns:
-    - begin: /\*
-      end: \*/
-      name: comment.block.livescript
-
-  heregex:
-    patterns:
-    - begin: //
-      end: //[dgimsuy]{0,7}
-      captures:
-        0:
-          name: keyword.other.livescript
-      name: string.regexp.livescript
+   array-assign:
       patterns:
-      - include: '#heregex-content'
+      -  begin: (?<==\s*)\[
+         end: \]
+         captures:
+            0:
+               name: punctuation.livescript
+         patterns:
+         -  include: '#expr'
 
-  heregex-content:
-    patterns:
-    - include: '#he-regexp-char-escape'
-    - include: '#he-regexp-content'
-    - begin: (\[)(\^)?-?
-      end: -?(\])
-      beginCaptures:
-        1:
-          name: punctuation.definition.character-class.regexp.livescript
-        2:
-          name: keyword.other.livescript
-      endCaptures:
-        1:
-          name: punctuation.definition.character-class.regexp.livescript
+   object-assign:
       patterns:
-      - include: '#he-regexp-char-escape'
-      - match: \-
-        name: keyword.operator.livescript
-      - include: '#heregex-interpolate-and-comment'
-    - begin: \((?:\?(?:<?[=!]|:|<<<ident>>>))?
-      end: \)
-      captures:
-        0:
-          name: punctuation.definition.group.regexp.livescript
+      -  begin: (?<==\s*)\{
+         end: \}
+         captures:
+            0:
+               name: punctuation.livescript
+         patterns:
+         -  include: '#expr'
+
+   embed-backtick:
       patterns:
-      - include: '#heregex-content'
-    - include: '#heregex-interpolate-and-comment'
+      -  begin: \``
+         end: \``
+         captures:
+            0:
+               name: punctuation.livescript
+         patterns:
+         -  include: source.js
 
-  heregex-interpolate-and-comment:
-    patterns:
-    - begin: \#{
-      end: \}
-      captures:
-        0:
-          name: variable.parameter.livescript
+   comment-line:
       patterns:
-      - include: '#expr'
-    - match: \#(?:@?<<ident>>|@)
-      name: variable.parameter.livescript
-    - match: '(?<=^|\s)#.*'
-      name: comment.line.number-sign.livescript
+      -  match: \#.*
+         name: comment.line.number-sign.livescript
 
-  regexp:
-    patterns:
-    - begin: /(?![= )])
-      end: /[dgimsuy]{0,7}|$
-      captures:
-        0:
-          name: keyword.other.livescript
-      name: string.regexp.livescript
+   comment-block:
       patterns:
-      - include: '#regexp-content'
+      -  begin: /\*
+         end: \*/
+         name: comment.block.livescript
 
-  regexp-content:
-    patterns:
-    - include: '#he-regexp-char-escape'
-    - include: '#he-regexp-content'
-    - begin: (\[)(\^)?-?
-      end: -?(\])|$
-      beginCaptures:
-        1:
-          name: punctuation.definition.character-class.regexp.livescript
-        2:
-          name: keyword.other.livescript
-      endCaptures:
-        1:
-          name: punctuation.definition.character-class.regexp.livescript
+   heregex:
       patterns:
-      - include: '#he-regexp-char-escape'
-      - match: \-
-        name: keyword.operator.livescript
-    - begin: \((?:\?(?:<?[=!]|:|<<<ident>>>))?
-      end: \)
-      captures:
-        0:
-          name: punctuation.definition.group.regexp.livescript
+      -  begin: //
+         end: //[dgimsuy]{0,7}
+         captures:
+            0:
+               name: keyword.other.livescript
+         name: string.regexp.livescript
+         patterns:
+         -  include: '#heregex-content'
+
+   heregex-content:
       patterns:
-      - include: '#regexp-content'
+      -  include: '#he-regexp-char-escape'
+      -  include: '#he-regexp-content'
+      -  begin: (\[)(\^)?-?
+         end: -?(\])
+         beginCaptures:
+            1:
+               name: punctuation.definition.character-class.regexp.livescript
+            2:
+               name: keyword.other.livescript
+         endCaptures:
+            1:
+               name: punctuation.definition.character-class.regexp.livescript
+         patterns:
+         -  include: '#he-regexp-char-escape'
+         -  match: \-
+            name: keyword.operator.livescript
+         -  include: '#heregex-interpolate-and-comment'
+      -  begin: \((?:\?(?:<?[=!]|:|<<<ident>>>))?
+         end: \)
+         captures:
+            0:
+               name: punctuation.definition.group.regexp.livescript
+         patterns:
+         -  include: '#heregex-content'
+      -  include: '#heregex-interpolate-and-comment'
 
-  he-regexp-char-escape:
-    patterns:
-    - match: \\[pP]\{[A-Za-z_]+(?:=\w+)?\}
-      name: constant.character.escape.livescript
-    - match: \\u\{[\da-fA-F]{1,6}\}
-      name: constant.character.escape.livescript
-    - match: \\u[\da-fA-F]{4}
-      name: constant.character.escape.livescript
-    - match: \\x[\da-fA-F]{2}
-      name: constant.character.escape.livescript
-    - match: \\c[a-zA-Z]
-      name: constant.character.escape.livescript
-    - match: \\.
-      name: constant.character.escape.livescript
-
-  he-regexp-content:
-    patterns:
-    - match: (\\k<)(\w+)(>)
-      captures:
-        1:
-          name: constant.character.escape.livescript
-        2:
-          name: constant.other.character-class.regexp.livescript
-        3:
-          name: constant.character.escape.livescript
-    - match: \.
-      name: constant.character-class.regexp.livescript
-    - match: '[+*?^$|]'
-      name: keyword.other.livescript
-    - match: '\{(\d+,\d+|\d+,|,\d+|\d+)\}'
-      name: keyword.other.livescript
-
-  function-arrow:
-    patterns:
-    - match: (?:(?:([.~]?)([\w$]+)|(<<ident>>))\s*(?:(:?=)|(:)))?\s*(?:(\()(.+)(\)))?\s*(!?(?:~~?|--?)>>?\*?)
-      captures:
-        1:
-          name: punctuation.accessor.livescript
-        2:
-          name: entity.name.function.livescript
-        3:
-          name: entity.name.function.livescript
-        4:
-          name: keyword.operator.livescript
-        5:
-          name: punctuation.separator.livescript
-        6:
-          name: punctuation.definition.parameters.begin.livescript
-        7:
-          patterns:
-          - include: '#function-arrow-parameters'
-        8:
-          name: punctuation.definition.parameters.end.livescript
-        9:
-          name: keyword.other.livescript
-
-  function-arrow-parameters:
-    patterns:
-    # - match: (?<=\(\s*)<<ident>>
-    #   name: variable.parameter.livescript
-    - include: '#parameters'
-
-  parameters:
-    patterns:
-    - match: (?<=[(,])\s*(--?|\+\+?|\^\^+|!+|~+|\.\.\.)?(@?)(<<ident>>)(?![."'\[{:\w$])
-      captures:
-        1:
-          name: keyword.operator.livescript
-        2:
-          name: storage.type.livescript
-        3:
-          name: variable.parameter.livescript
-    - begin: \(
-      end: \)
+   heregex-interpolate-and-comment:
       patterns:
-      - include: '#expr'
-    - include: '#parameter-destruct-array'
-    - include: '#parameter-destruct-object'
-    - include: '#expr'
+      -  begin: \#{
+         end: \}
+         captures:
+            0:
+               name: variable.parameter.livescript
+         patterns:
+         -  include: '#expr'
+      -  match: \#(?:@?<<ident>>|@)
+         name: variable.parameter.livescript
+      -  match: '(?<=^|\s)#.*'
+         name: comment.line.number-sign.livescript
 
-  parameter-destruct-array:
-    patterns:
-    - begin: (?<!=\s*|[\w$])\[
-      end: \]
-      captures:
-        0:
-          name: punctuation.livescript
+   regexp:
       patterns:
-      - match: (?<=[\[,]\s*)<<ident>>
-        name: variable.parameter.livescript
-      - include: '#expr'
+      -  begin: /(?![= )])
+         end: /[dgimsuy]{0,7}|$
+         captures:
+            0:
+               name: keyword.other.livescript
+         name: string.regexp.livescript
+         patterns:
+         -  include: '#regexp-content'
 
-  parameter-destruct-object:
-    patterns:
-    - begin: (?<!=\s*|[\w$])\{
-      end: \}
-      captures:
-        0:
-          name: punctuation.livescript
+   regexp-content:
       patterns:
-      - match: (:)\s*(<<ident>>)(?!:)
-        captures:
-          1:
-            name: punctuation.separator.livescript
-          2:
+      -  include: '#he-regexp-char-escape'
+      -  include: '#he-regexp-content'
+      -  begin: (\[)(\^)?-?
+         end: -?(\])|$
+         beginCaptures:
+            1:
+               name: punctuation.definition.character-class.regexp.livescript
+            2:
+               name: keyword.other.livescript
+         endCaptures:
+            1:
+               name: punctuation.definition.character-class.regexp.livescript
+         patterns:
+         -  include: '#he-regexp-char-escape'
+         -  match: \-
+            name: keyword.operator.livescript
+      -  begin: \((?:\?(?:<?[=!]|:|<<<ident>>>))?
+         end: \)
+         captures:
+            0:
+               name: punctuation.definition.group.regexp.livescript
+         patterns:
+         -  include: '#regexp-content'
+
+   he-regexp-char-escape:
+      patterns:
+      -  match: \\[pP]\{[A-Za-z_]+(?:=\w+)?\}
+         name: constant.character.escape.livescript
+      -  match: \\u\{[\da-fA-F]{1,6}\}
+         name: constant.character.escape.livescript
+      -  match: \\u[\da-fA-F]{4}
+         name: constant.character.escape.livescript
+      -  match: \\x[\da-fA-F]{2}
+         name: constant.character.escape.livescript
+      -  match: \\c[a-zA-Z]
+         name: constant.character.escape.livescript
+      -  match: \\.
+         name: constant.character.escape.livescript
+
+   he-regexp-content:
+      patterns:
+      -  match: (\\k<)(\w+)(>)
+         captures:
+            1:
+               name: constant.character.escape.livescript
+            2:
+               name: constant.other.character-class.regexp.livescript
+            3:
+               name: constant.character.escape.livescript
+      -  match: \.
+         name: constant.character-class.regexp.livescript
+      -  match: '[+*?^$|]'
+         name: keyword.other.livescript
+      -  match: '\{(\d+,\d+|\d+,|,\d+|\d+)\}'
+         name: keyword.other.livescript
+
+   function-arrow:
+      patterns:
+      -  match: (?:(?:([.~]?)([\w$]+)|(<<ident>>))\s*(?:(:?=)|(:)))?\s*(?:(\()(.+)(\)))?\s*(!?(?:~~?|--?)>>?\*?)
+         captures:
+            1:
+               name: punctuation.accessor.livescript
+            2:
+               name: entity.name.function.livescript
+            3:
+               name: entity.name.function.livescript
+            4:
+               name: keyword.operator.livescript
+            5:
+               name: punctuation.separator.livescript
+            6:
+               name: punctuation.definition.parameters.begin.livescript
+            7:
+               patterns:
+               -  include: '#function-arrow-parameters'
+            8:
+               name: punctuation.definition.parameters.end.livescript
+            9:
+               name: keyword.other.livescript
+
+   function-arrow-parameters:
+      patterns:
+      # - match: (?<=\(\s*)<<ident>>
+      #   name: variable.parameter.livescript
+      -  include: '#parameters'
+
+   parameters:
+      patterns:
+      -  match: (?<=[(,])\s*(--?|\+\+?|\^\^+|!+|~+|\.\.\.)?(@?)(<<ident>>)(?![."'\[{:\w$])
+         captures:
+            1:
+               name: keyword.operator.livescript
+            2:
+               name: storage.type.livescript
+            3:
+               name: variable.parameter.livescript
+      -  begin: \(
+         end: \)
+         patterns:
+         -  include: '#expr'
+      -  include: '#parameter-destruct-array'
+      -  include: '#parameter-destruct-object'
+      -  include: '#expr'
+
+   parameter-destruct-array:
+      patterns:
+      -  begin: (?<!=\s*|[\w$])\[
+         end: \]
+         captures:
+            0:
+               name: punctuation.livescript
+         patterns:
+         -  match: (?<=[\[,]\s*)<<ident>>
             name: variable.parameter.livescript
-      - match: (?<=[{,]\s*)<<ident>>(?!:)
-        name: variable.parameter.livescript
-      - include: '#expr'
+         -  include: '#expr'
 
-  number:
-    patterns:
-    - match: \d\d?~[\da-zA-Z]+
-      name: constant.numeric.livescript
-    - match: \d+n
-      name: constant.numeric.livescript
-    - match: \d+(\.\d+)?([eE]-?\d+)?[\w$]*
-      name: constant.numeric.livescript
+   parameter-destruct-object:
+      patterns:
+      -  begin: (?<!=\s*|[\w$])\{
+         end: \}
+         captures:
+            0:
+               name: punctuation.livescript
+         patterns:
+         -  match: (:)\s*(<<ident>>)(?!:)
+            captures:
+               1:
+                  name: punctuation.separator.livescript
+               2:
+                  name: variable.parameter.livescript
+         -  match: (?<=[{,]\s*)<<ident>>(?!:)
+            name: variable.parameter.livescript
+         -  include: '#expr'
 
-  static-methods:
-    patterns:
-    {{staticMethods}}
+   number:
+      patterns:
+      -  match: \d\d?~[\da-zA-Z]+
+         name: constant.numeric.radix.livescript
+      -  match: \d+(\.\d+)?([eE]-?\d+)?(?![n\d])[\w$]*
+         name: constant.numeric.livescript
 
-  proto-methods:
-    patterns:
-    - match: (?:(?<=["')\]}?\w$]!*|::!*)(~?)|(\.= *|::= *|\.\.|::)|(\.~?))({{protoMethods}}|constructor)(?![\w$])
-      captures:
-        1:
-          name: punctuation.accessor.livescript
-        2:
-          name: keyword.operator.livescript
-        3:
-          name: punctuation.accessor.livescript
-        4:
-          name: entity.name.function.livescript
+   static-methods:
+      patterns:
+      {{staticMethods}}
 
-  property:
-    patterns:
-    - match: (@)(<<ident>>)?
-      captures:
-        1:
-          name: storage.type.livescript
-        2:
-          patterns:
-          - include: '#variable'
-    - match: (\.= *|::= *|\.\.|::)([\w$]+)
-      captures:
-        1:
-          name: keyword.operator.livescript
-        2:
-          patterns:
-          - include: '#number'
-          - include: '#variable'
-    - match: (<<ident>>)(?= *:[^:])
-      name: variable.other.livescript
-    - match: (\.)(<<ident>>)
-      captures:
-        1:
-          name: punctuation.accessor.livescript
-        2:
-          patterns:
-          - include: '#variable'
-    - match: (?<=[."')\]}?!]|[\w$@])(~)([\w$]+)
-      captures:
-        1:
-          name: punctuation.accessor.livescript
-        2:
-          patterns:
-          - include: '#number'
-          - include: '#variable'
-    # - match: (?<=["')\]}/]~?)[\w$]+
-    #   captures:
-    #     0:
-    #       patterns:
-    #       - include: '#variable'
+   proto-methods:
+      patterns:
+      -  match: (?:(?<=["')\]}?\w$]!*|::!*)(~?)|(\.= *|::= *|\.\.|::)|(\.~?))({{protoMethods}}|constructor)(?![\w$])
+         captures:
+            1:
+               name: punctuation.accessor.livescript
+            2:
+               name: keyword.operator.livescript
+            3:
+               name: punctuation.accessor.livescript
+            4:
+               name: entity.name.function.livescript
 
-  label:
-    patterns:
-    - match: (:)(?!(?:<<keywords>>)(?![\w$]))(<<ident>>)
-      captures:
-        1:
-          name: punctuation.separator.label.livescript
-        2:
-          name: entity.name.label.livescript
-    - match: (break|continue)\s+(?!(?:<<keywords>>)(?![\w$]))(<<ident>>)
-      captures:
-        1:
-          name: keyword.control.livescript
-        2:
-          name: entity.name.label.livescript
+   property:
+      patterns:
+      -  match: (@)(<<ident>>)?
+         captures:
+            1:
+               name: storage.type.livescript
+            2:
+               patterns:
+               -  include: '#variable'
+      -  match: (\.= *|::= *|\.\.|::)([\w$]+)
+         captures:
+            1:
+               name: keyword.operator.livescript
+            2:
+               patterns:
+               -  include: '#number'
+               -  include: '#variable'
+      -  match: (<<ident>>)(?= *:[^:])
+         name: variable.other.livescript
+      -  match: (\.)(<<ident>>)
+         captures:
+            1:
+               name: punctuation.accessor.livescript
+            2:
+               patterns:
+               -  include: '#variable'
+      -  match: (?<=[."')\]}?!]|[\w$@])(~)([\w$]+)
+         captures:
+            1:
+               name: punctuation.accessor.livescript
+            2:
+               patterns:
+               -  include: '#number'
+               -  include: '#variable'
+      # - match: (?<=["')\]}/]~?)[\w$]+
+      #   captures:
+      #     0:
+      #       patterns:
+      #       -  include: '#variable'
 
-  operator:
-    patterns:
-    - match: \.(>>>?|<<|[&|^])\.|<<<?<?| \. |!~=|\.\.\.?|[=!~:.]=|\+\+|--|\*\*|%%|::|=>|>>|\|>|<\||[<>]\?|&&|\|\|?|\^\^?|[<>]=?|[+\-*/%!?=~]
-      name: keyword.operator.livescript
-    - match: (is|isnt|and|x?or|not|delete|typeof|instanceof)(?![\w$])
-      name: keyword.operator.livescript
+   label:
+      patterns:
+      -  match: (:)(?!(?:<<keywords>>)(?![\w$]))(<<ident>>)
+         captures:
+            1:
+               name: punctuation.separator.label.livescript
+            2:
+               name: entity.name.label.livescript
+      -  match: (break|continue)\s+(?!(?:<<keywords>>)(?![\w$]))(<<ident>>)
+         captures:
+            1:
+               name: keyword.control.livescript
+            2:
+               name: entity.name.label.livescript
 
-  function-named:
-    patterns:
-    - match: '(!)?(function)(\*?) +(<<ident>>)(\*?)(?: +(?:(--?|\+\+?|\^\^+|!+|~+|\.\.\.)?(@?)(<<ident>>)(?![."''\[{:\w$]))?(.*?))?(?: +(then(?![\w$])|=>)|$)'
-      captures:
-        1:
-          name: keyword.control.livescript
-        2:
-          name: keyword.control.livescript
-        3:
-          name: keyword.control.livescript
-        4:
-          name: entity.name.function.livescript
-        5:
-          name: keyword.control.livescript
-        6:
-          name: keyword.operator.livescript
-        7:
-          name: storage.type.livescript
-        8:
-          name: variable.parameter.livescript
-        9:
-          patterns:
-          - include: '#function-named-parameters'
-        10:
-          name: keyword.control.livescriptsss
+   operator:
+      patterns:
+      -  match: \.(>>>?|<<|[&|^])\.|<<<?<?| \. |!~=|\.\.\.?|[=!~:.]=|\+\+|--|\*\*|%%|::|=>|>>|\|>|<\||[<>]\?|&&|\|\|?|\^\^?|[<>]=?|[+\-*/%!?=~]
+         name: keyword.operator.livescript
+      -  match: (?<!\d+n)(is|isnt|and|x?or|not|delete|typeof|instanceof)(?![\w$])
+         name: keyword.operator.livescript
 
-  function-named-parameters:
-    patterns:
-    - include: '#parameters'
+   function-named:
+      patterns:
+      -  match: '(!)?(function)(\*?) +(<<ident>>)(\*?)(?: +(?:(--?|\+\+?|\^\^+|!+|~+|\.\.\.)?(@?)(<<ident>>)(?![."''\[{:\w$]))?(.*?))?(?: +(then(?![\w$])|=>)|$)'
+         captures:
+            1:
+               name: keyword.control.livescript
+            2:
+               name: keyword.control.livescript
+            3:
+               name: keyword.control.livescript
+            4:
+               name: entity.name.function.livescript
+            5:
+               name: keyword.control.livescript
+            6:
+               name: keyword.operator.livescript
+            7:
+               name: storage.type.livescript
+            8:
+               name: variable.parameter.livescript
+            9:
+               patterns:
+               -  include: '#function-named-parameters'
+            10:
+               name: keyword.control.livescriptsss
 
-  class:
-    patterns:
-    - match: '(class) +(extends) +(<<ident>>)(?: +(implements) +(.+))?'
-      captures:
-        1:
-          name: keyword.control.livescript
-        2:
-          name: storage.modifier.livescript
-        3:
-          name: storage.type.livescript
-        4:
-          name: storage.modifier.livescript
-        5:
-          patterns:
-          - include: '#class-implements'
-    - match: '(class) +(implements) +(.+)'
-      captures:
-        1:
-          name: keyword.control.livescript
-        2:
-          name: storage.modifier.livescript
-        3:
-          patterns:
-          - include: '#class-implements'
-    - match: '(class) +(<<ident>>)(?: +(extends) +(<<ident>>))?(?: +(implements) +(.+))?'
-      captures:
-        1:
-          name: keyword.control.livescript
-        2:
-          name: entity.name.function.livescript
-        3:
-          name: storage.modifier.livescript
-        4:
-          name: storage.type.livescript
-        5:
-          name: storage.modifier.livescript
-        6:
-          patterns:
-          - include: '#class-implements'
+   function-named-parameters:
+      patterns:
+      -  include: '#parameters'
 
-  class-implements:
-    patterns:
-    - match: \,
-      name: punctuation.separator.comma.livescript
-    - match: '<<ident>>'
-      name: storage.type.livescript
+   class:
+      patterns:
+      -  match: '(class) +(extends) +(<<ident>>)(?: +(implements) +(.+))?'
+         captures:
+            1:
+               name: keyword.control.livescript
+            2:
+               name: storage.modifier.livescript
+            3:
+               name: storage.type.livescript
+            4:
+               name: storage.modifier.livescript
+            5:
+               patterns:
+               -  include: '#class-implements'
+      -  match: '(class) +(implements) +(.+)'
+         captures:
+            1:
+               name: keyword.control.livescript
+            2:
+               name: storage.modifier.livescript
+            3:
+               patterns:
+               -  include: '#class-implements'
+      -  match: '(class) +(<<ident>>)(?: +(extends) +(<<ident>>))?(?: +(implements) +(.+))?'
+         captures:
+            1:
+               name: keyword.control.livescript
+            2:
+               name: entity.name.function.livescript
+            3:
+               name: storage.modifier.livescript
+            4:
+               name: storage.type.livescript
+            5:
+               name: storage.modifier.livescript
+            6:
+               patterns:
+               -  include: '#class-implements'
 
-  declare:
-    patterns:
-    - match: (const) (<<ident>>)
-      captures:
-        1:
-          name: keyword.control.livescript
-        2:
-          name: constant.language.livescript
+   class-implements:
+      patterns:
+      -  match: \,
+         name: punctuation.separator.comma.livescript
+      -  match: '<<ident>>'
+         name: storage.type.livescript
 
-  storage:
-    patterns:
-    - match: (arguments|this|that|super|it|e|_)(?![\w$])
-      name: storage.type.livescript
-    - match: (&)(?!&)
-      name: storage.type.livescript
+   declare:
+      patterns:
+      -  match: (const) (<<ident>>)
+         captures:
+            1:
+               name: keyword.control.livescript
+            2:
+               name: constant.language.livescript
 
-  constant:
-    patterns:
-    - match: (<<constants>>)(?![\w$])
-      name: constant.language.livescript
+   storage:
+      patterns:
+      -  match: (?<!\d+n)(arguments|this|that|super|it|e|_)(?![\w$])
+         name: storage.type.livescript
+      -  match: (&)(?!&)
+         name: storage.type.livescript
 
-  keyword:
-    patterns:
-    - match: (?<![."')\]}?]|["')\]}?\w$]!)(<<keywords>>)(?![\w$])
-      name: keyword.control.livescript
+   constant:
+      patterns:
+      -  match: (?<!\d+n)(<<constants>>)(?![\w$])
+         name: constant.language.livescript
 
-  window-props:
-    patterns:
-    - match: (window|document|location|navigator|screen|history|localStorage|sessionStorage|innerWidth|innerHeight|event|console|process|module|livescript|stylus|m|fs|vscode|dayjs|\$|os)(?![\w$])
-      name: storage.type.livescript
+   keyword:
+      patterns:
+      -  match: (?<![."')\]}?]|["')\]}?\w$]!|\d+n)(<<keywords>>)(?![\w$])
+         name: keyword.control.livescript
 
-  window-methods:
-    patterns:
-    - match: (?<![."')\]}?]~?|["')\]}?\w$]!|[\w.]~|\.= *)({{windowMethods}}|require|import)(?![\w$])
-      name: entity.name.function.livescript
+   bigint:
+      patterns:
+      -  match: (\d+)(n)
+         captures:
+            1:
+               name: constant.numeric.bigint.livescript
+            2:
+               name: storage.type.bigint.livescript
 
-  punctuation:
-    patterns:
-    - match: \.
-      name: punctuation.accessor.livescript
-    - match: \,
-      name: punctuation.separator.comma.livescript
-    - match: \;
-      name: punctuation.terminator.statement.livescript
-    - match: ':'
-      name: punctuation.separator.colon.livescript
+   window-props:
+      patterns:
+      -  match: (?<!\d+n)(window|document|location|navigator|screen|history|localStorage|sessionStorage|innerWidth|innerHeight|event|console|process|module|livescript|stylus|m|fs|vscode|dayjs|\$|os)(?![\w$])
+         name: storage.type.livescript
 
-  variable:
-    patterns:
-    - match: '[A-Z][A-Z0-9_$]*(?![\w$])'
-      name: constant.language.livescript
-    - match: '[A-Z][\w$]+(?![\w$])'
-      name: storage.type.livescript
-    - match: '<<ident>>'
-      name: variable.other.livescript
+   window-methods:
+      patterns:
+      -  match: (?<!["')\]}?]~?|["')\]}?\w$]!+|[\w.]~|\.= *|\d+n)({{windowMethods}}|require|import)(?![\w$])
+         name: entity.name.function.livescript
+
+   punctuation:
+      patterns:
+      -  match: \.
+         name: punctuation.accessor.livescript
+      -  match: \,
+         name: punctuation.separator.comma.livescript
+      -  match: \;
+         name: punctuation.terminator.statement.livescript
+      -  match: ':'
+         name: punctuation.separator.colon.livescript
+
+   variable:
+      patterns:
+      -  match: '[A-Z][A-Z0-9_$]*(?![\w$])'
+         name: constant.language.livescript
+      -  match: '[A-Z][\w$]+(?![\w$])'
+         name: storage.type.livescript
+      -  match: '<<ident>>'
+         name: variable.other.livescript

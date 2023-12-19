@@ -1,0 +1,11 @@
+{
+   "editor.insertSpaces": true,
+   "editor.tabSize": 3,
+   "javascript.format.semicolons": "insert",
+   "[yaml]": {
+      "editor.tabSize": 2
+   },
+   "[markdown]": {
+      "editor.tabSize": 2
+   }
+}

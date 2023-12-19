@@ -260,22 +260,24 @@ await add "sao: #@ok-baby.interp.er%" 51
 a in b
 a !in b
 !if a > 0 => 1
-!require
-a!require
-a!!require
+!open
+a!open
+a!!open
 !split
 a!split
 a!!split
 ""!split
 a.split
 a!~split
-require
-.require
-..require
-...require
+open
+.open
+window.open
+..open
+...open
 a .= split
 
-num = -45n + 10nas + 2n23
+num = -45n + 10nreplace 45 + 2n23 + 4non + 50nif + 6n"sd" + 7nthat + 8nalert + 9nscreen
+num = 1nCON + 2nvar + 3nNaN + 4nand 5n + 6nDate.now! + 7nSeven11 + 8n.valueOf
 hex = -0x4fn / 42~12
 base = 30~gJ
 aa = 13e6

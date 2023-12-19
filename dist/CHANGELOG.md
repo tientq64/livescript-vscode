@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.3.6] - 2023-12-19
+
+- Syntax highlighting:
+  + Add: `then` and `=>` syntax after the named function, avoiding confusing variables after `then` with parameters.
+  + Fix: In parameters, variables in parentheses will be like regular variables, not parameters.
+
 ## [1.3.5] - 2023-12-12
 
 - Syntax highlighting:

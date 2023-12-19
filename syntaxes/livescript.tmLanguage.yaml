@@ -339,6 +339,10 @@ repository:
           name: storage.type.livescript
         3:
           name: variable.parameter.livescript
+    - begin: \(
+      end: \)
+      patterns:
+      - include: '#expr'
     - include: '#parameter-destruct-array'
     - include: '#parameter-destruct-object'
     - include: '#expr'
@@ -388,7 +392,7 @@ repository:
 
   proto-methods:
     patterns:
-    - match: (?:(?<=["')\]}?\w$]!*|::)(~?)|(\.= *|::= *|\.\.|::)|(\.~?))({{protoMethods}}|constructor)(?![\w$])
+    - match: (?:(?<=["')\]}?\w$]!*|::!*)(~?)|(\.= *|::= *|\.\.|::)|(\.~?))({{protoMethods}}|constructor)(?![\w$])
       captures:
         1:
           name: punctuation.accessor.livescript
@@ -463,7 +467,7 @@ repository:
 
   function-named:
     patterns:
-    - match: '(!)?(function)(\*?) +(<<ident>>)(\*?)(?: +(?:(--?|\+\+?|\^\^+|!+|~+|\.\.\.)?(@?)(<<ident>>)(?![."''\[{:\w$]))?(.*))?'
+    - match: '(!)?(function)(\*?) +(<<ident>>)(\*?)(?: +(?:(--?|\+\+?|\^\^+|!+|~+|\.\.\.)?(@?)(<<ident>>)(?![."''\[{:\w$]))?(.*?))?(?: +(then(?![\w$])|=>)|$)'
       captures:
         1:
           name: keyword.control.livescript
@@ -484,6 +488,8 @@ repository:
         9:
           patterns:
           - include: '#function-named-parameters'
+        10:
+          name: keyword.control.livescriptsss
 
   function-named-parameters:
     patterns:

@@ -14,3 +14,7 @@ Some features are not currently supported (may be available in future versions):
 
 - Syntax highlighting with variable names in kebab-case style.
 - Syntax highlighting for `prelude.ls`.
+
+## Changelog
+
+[View changelog](./CHANGELOG.md)

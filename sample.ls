@@ -157,7 +157,10 @@ a::?replace
 a~replace
 a~postMessag
 a~postMessage
+a.postMessage
 @~postMessage
+@.postMessage
+@postMessage
 a~postMessages
 a::postMessage
 a.~replace
@@ -175,7 +178,6 @@ a::10
 []10
 ""10
 @10
-a .= replace
 4~5
 a.120
 
@@ -192,8 +194,10 @@ function name a1, a2, a3 then
 function name a1, a2, ...a3 then
 !function* name a1.c, a2.c, a3.c then
 function name* a1 = a, a2, a3 = 3 =>
-function name a1, a2 = ([b1, b2]), a3 then
+function name a1, a2 = (b0, [b1, b2]), a3 then
 function name a123
+function name a, b then b45; cc = 60
+function name a, [b, c = d, [e, f = [g, h = i]], j], k => l, m, [n, o]
 
 (!bool, +num, arr, @ref, tmp = +ok - +mk * @hi, itc.at, it.ch, ...rest, ^^name) ~>
 (@user) ->

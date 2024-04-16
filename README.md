@@ -2,13 +2,13 @@
 
 Syntax highlighting, autocomplete, and snippets support for [LiveScript](https://livescript.net), specifically [LiveScript2](https://github.com/tientq64/livescript2).
 
-![Sample](./sample.png)
+![Sample](https://i.imgur.com/fkYQpVD.png)
 
 ## Features
 
-- Syntax highlighting files with extensions `.ls`, `.livescript`. Also highlights `Node.js` and a few famous library variables like `jquery`, `react`, `popperjs`, `dayjs`, `mithril.js`, `phaser`, etc.
+- Syntax highlighting files with extensions `.ls`, `.livescript`.
 - Autocomplete of function, class, method, and property names.
-- A few snippets.
+- Some snippets like `log` => `console.log`.
 
 Some features are not currently supported (may be available in future versions):
 

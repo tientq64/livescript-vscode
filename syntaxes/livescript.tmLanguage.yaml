@@ -2,7 +2,7 @@ scopeName: source.livescript
 
 variables:
    ident: '[a-zA-Z_$][\w$]*'
-   constants: 'yes|no|true|false|on|off|void|null|undefined|NaN|Infinity'
+   constants: 'yes|no|true|false|on|off|void|''|undefined|NaN|Infinity'
    keywords: 'if|unless|then|else|switch|match|case|default|otherwise|fallthrough|for|own|ever|from|to|til|by|when|while|until|loop|in|of|let|do|var|const|break|continue|return|yield|await|try|catch|finally|throw|new|with|debugger|function|class|extends|implements'
 
 patterns:
@@ -24,6 +24,7 @@ repository:
       -  include: '#comment-block'
       -  include: '#heregex'
       -  include: '#regexp'
+      -  include: '#backcall'
       -  include: '#function-arrow'
       -  include: '#number'
       -  include: '#static-methods'
@@ -41,6 +42,7 @@ repository:
       -  include: '#window-props'
       -  include: '#window-methods'
       -  include: '#punctuation'
+      -  include: '#variable-private'
       -  include: '#variable'
 
    string-triple-single:
@@ -300,6 +302,20 @@ repository:
       -  match: '\{(\d+,\d+|\d+,|,\d+|\d+)\}'
          name: keyword.other.livescript
 
+   backcall:
+      patterns:
+      -  match: (@?)(<<ident>>)(.*) *((\*?<--?|(?<!\*)<~~?)!?)
+         captures:
+            1:
+               name: storage.type.livescript
+            2:
+               name: variable.parameter.livescript
+            3:
+               patterns:
+               -  include: '#parameters'
+            4:
+               name: keyword.other.livescript
+
    function-arrow:
       patterns:
       -  match: (?:(?:([.~]?)([\w$]+)|(<<ident>>))\s*(?:(:?=)|(:)))?\s*(?:(\()(.+)(\)))?\s*(!?(?:~~?|--?)>>?\*?)
@@ -420,7 +436,7 @@ repository:
                -  include: '#number'
                -  include: '#variable'
       -  match: (<<ident>>)(?= *:[^:])
-         name: variable.other.livescript
+         name: ''
       -  match: (\.)(<<ident>>)
          captures:
             1:
@@ -543,7 +559,7 @@ repository:
 
    declare:
       patterns:
-      -  match: (const) (<<ident>>)
+      -  match: (const) +(<<ident>>)
          captures:
             1:
                name: keyword.control.livescript
@@ -578,7 +594,7 @@ repository:
 
    window-props:
       patterns:
-      -  match: (?<!\d+n)(window|document|location|navigator|screen|history|localStorage|sessionStorage|innerWidth|innerHeight|event|console|process|module|livescript|stylus|m|fs|vscode|dayjs|\$|os)(?![\w$])
+      -  match: (?<!\d+n)(window|document|location|navigator|screen|history|localStorage|sessionStorage|innerWidth|innerHeight|event|console|process|module|livescript|stylus|m|fs|vscode|dayjs|os)(?![\w$])
          name: storage.type.livescript
 
    window-methods:
@@ -597,6 +613,45 @@ repository:
       -  match: ':'
          name: punctuation.separator.colon.livescript
 
+   variable-private:
+      patterns:
+      -  match: (?:(\$+)([\w$]+?)(\$+)|(\$+)([\w$]+)|([\w$]+?)(\$+)|(\$+))(?![\w$])
+         captures:
+            1:
+               name: punctuation.defintion.variable.livescript
+            2:
+               name: ''
+            3:
+               name: punctuation.defintion.variable.livescript
+            4:
+               name: punctuation.defintion.variable.livescript
+            5:
+               name: ''
+            6:
+               name: ''
+            7:
+               name: punctuation.defintion.variable.livescript
+            8:
+               name: punctuation.defintion.variable.livescript
+      -  match: (?:(_+)([\w$]+?)(_+)|(_+)([\w$]+)|([\w$]+?)(_+)|(_+))(?![\w$])
+         captures:
+            1:
+               name: punctuation.defintion.variable.livescript
+            2:
+               name: ''
+            3:
+               name: punctuation.defintion.variable.livescript
+            4:
+               name: punctuation.defintion.variable.livescript
+            5:
+               name: ''
+            6:
+               name: ''
+            7:
+               name: punctuation.defintion.variable.livescript
+            8:
+               name: punctuation.defintion.variable.livescript
+
    variable:
       patterns:
       -  match: '[A-Z][A-Z0-9_$]*(?![\w$])'
@@ -604,4 +659,4 @@ repository:
       -  match: '[A-Z][\w$]+(?![\w$])'
          name: storage.type.livescript
       -  match: '<<ident>>'
-         name: variable.other.livescript
+         name: ''

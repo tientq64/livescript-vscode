@@ -1,4 +1,4 @@
-name = 'Tran Quang Tien'
+name = 'Pikachu'
 description = "Toi la #name. Xin #{Date.now! + "haha" + nots % 4} chao #@hi #@44 #@ END"
 age /= -26.3e-5 + (\)hihi)
 
@@ -24,6 +24,26 @@ obj = func: (sd = 4, cm = (m) ~> hi) ~> 6
 
 !function f1 p1
    4
+
+$ = JQuery
+$php_version = \1.0.3
+$php_version$_ = \1.0.3
+$php_version$name = \1.0.3
+$php_version$name_ = \1.0.3
+$php_version$name_$ = \1.0.3
+$$php_version$name_$$$ = \1.0.3
+php_$version$$$ = \1.0.3
+$jquery$ = 2
+
+_ = lodash
+_lodash = \1.0.3
+_lodash__ = \1.0.3
+_lodash_name = \1.0.3
+_lodash_name_ = \1.0.3
+_lodash_name__ = \1.0.3
+__lodash_name____ = \1.0.3
+lodash___ = \1.0.3
+_lodash_ = 2
 
 for let vvv, iii in arr
    if vvv is 1 and iii isnt 2 xor c
@@ -198,6 +218,24 @@ function name a1, a2 = (b0, [b1, b2]), a3 then
 function name a123
 function name a, b then b45; cc = 60
 function name a, [b, c = d, [e, f = [g, h = i]], j], k => l, m, [n, o]
+
+name <- getName \animal
+name <~ getName \animal
+name <-! getName \animal
+name *<-! getName \animal
+name, age <- getName \animal
+name, [age, gender] <- getName \animal
+[name] <- getName \animal
+[name], age <- getName \animal
+{name, age} <- getName \animal
+@name <- getName \animal
+@name, @age <- getName \animal
+name = 4 <- getName \animal
+name = \cat, gender = Gender.MALE, age = 10 <- getName \animal
+*<-! getName \animal
+*<~! getName \animal
+name *<~! getName \animal
+name, age *<~! getName \animal
 
 (!bool, +num, arr, @ref, tmp = +ok - +mk * @hi, itc.at, it.ch, ...rest, ^^name) ~>
 (@user) ->

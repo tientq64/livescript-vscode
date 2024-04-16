@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.3.10] - 2024-04-16
+
+- Syntax highlighting:
+  + Fix: Replace all textmate scope `variable.other.livescript` to `''`.
+
+## [1.3.9] - 2024-03-10
+
+- Syntax highlighting:
+  + Add: Backcall.
+  + Add: Variable names with `$` and `_` signs will be highlighted separately from the name, making it easy to distinguish. Useful for private, temporary variables.
+
 ## [1.3.7] - 2023-12-19
 
 - Syntax highlighting:
@@ -88,7 +99,7 @@
 
 ## [1.0.2] - 2023-09-24
 
-- Change my username in the license.
+- Change my username in the LICENSE.
 
 ## [1.0.1] - 2023-09-24
 
